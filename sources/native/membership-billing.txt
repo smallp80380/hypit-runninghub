@@ -1,0 +1,7 @@
+Source: https://www.runninghub.ai/enterprise-api/consumerApi
+Retrieved: 2026-09-30 via public web search full text; unauthenticated HTML was an application shell.
+Representation: selected factual note, not a complete HTML snapshot.
+Official statement excerpt: "Calling the API via a Membership API KEY will consume RH coins in the account"
+The same page describes shared website/API concurrency for this key class.
+Scope: a statement about Membership keys, not evidence that accountStatus NORMAL means Membership.
+No credentials, account observation or paid task response were collected by this development session.

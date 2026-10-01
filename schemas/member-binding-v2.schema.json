@@ -1,0 +1,150 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "format": {
+      "const": "REVIEWED_MEMBER_BINDING@2"
+    },
+    "credential": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "reference": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "store": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          },
+          "required": [
+            "store",
+            "key"
+          ]
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "reference",
+        "sha256"
+      ]
+    },
+    "family": {
+      "const": "native-workflow"
+    },
+    "baseUrl": {
+      "enum": [
+        "https://www.runninghub.ai",
+        "https://www.runninghub.cn"
+      ]
+    },
+    "workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "workflowId": {
+          "type": "string",
+          "pattern": "^[0-9]{1,40}$"
+        },
+        "graphDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "descriptorDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "scope": {
+          "const": "reviewed-native-only-no-external-money"
+        },
+        "sourceMode": {
+          "enum": [
+            "saved-id",
+            "inline-json"
+          ]
+        },
+        "mappingPolicy": {
+          "const": "declared-port-inputs-only"
+        }
+      },
+      "required": [
+        "workflowId",
+        "graphDigest",
+        "descriptorDigest",
+        "scope",
+        "sourceMode",
+        "mappingPolicy"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "const": "https://www.runninghub.ai/enterprise-api/consumerApi"
+        },
+        "noteSha256": {
+          "const": "becf0e9cb51ceee2460b77ebeddc394343e7e982f9fdbb029a3e6e4055386097"
+        }
+      },
+      "required": [
+        "url",
+        "noteSha256"
+      ]
+    },
+    "humanReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "project-owner-reviewed-membership-key-and-native-workflow"
+        },
+        "recordId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.-]{1,100}$"
+        },
+        "reviewer": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.-]{1,100}$"
+        },
+        "reviewedAt": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+        }
+      },
+      "required": [
+        "kind",
+        "recordId",
+        "reviewer",
+        "reviewedAt"
+      ]
+    },
+    "expiresAt": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+    }
+  },
+  "required": [
+    "format",
+    "credential",
+    "family",
+    "baseUrl",
+    "workflow",
+    "source",
+    "humanReview",
+    "expiresAt"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:hypit-runninghub:member-binding:2",
+  "title": "Reviewed Member source/revision/mapping binding; exact runtime validation and private permissions required"
+}

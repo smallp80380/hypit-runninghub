@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:hypit-runninghub:workflow-fetch:1",
+  "title": "Bounded read-only fetch config; explicit credential resolver supplied by caller",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "format": {
+      "const": "hypit-runninghub.fetch@1"
+    },
+    "baseUrl": {
+      "enum": [
+        "https://www.runninghub.ai",
+        "https://www.runninghub.cn"
+      ]
+    },
+    "workflowId": {
+      "type": "string",
+      "pattern": "^[0-9]{1,40}$"
+    },
+    "apiKey": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "store": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      },
+      "required": [
+        "store",
+        "key"
+      ]
+    },
+    "requestTimeoutMs": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 300000
+    },
+    "maxResponseBytes": {
+      "type": "integer",
+      "minimum": 1024,
+      "maximum": 16777216
+    }
+  },
+  "required": [
+    "format",
+    "baseUrl",
+    "workflowId",
+    "apiKey",
+    "requestTimeoutMs",
+    "maxResponseBytes"
+  ]
+}

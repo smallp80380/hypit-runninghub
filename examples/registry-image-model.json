@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "hypit-runninghub.model@1",
+  "execution": "deferred-coins-only",
+  "registryEndpoint": "rhart-image-v1/text-to-image",
+  "registrySha256": "61b682b097fdf8766a70c774464b3682ca2494b0f2a0d8de105bd0a77c825a1a",
+  "entrySha256": "c3e9da869b8ff3efeb41b4e1cc40d1fe3d6fefcc965ba5a1df4407ab5a257690",
+  "capability": {
+    "module": {
+      "name": "@example/runninghub-models",
+      "version": "1"
+    },
+    "name": "rhart-image-v1-text-to-image"
+  },
+  "portTable": {
+    "model": "rhart-image-v1-text-to-image",
+    "result": "image",
+    "ports": [
+      {
+        "name": "prompt",
+        "minItems": 1,
+        "maxItems": 1,
+        "value": {
+          "kind": "text",
+          "maxChars": 20000
+        }
+      },
+      {
+        "name": "aspectRatio",
+        "minItems": 1,
+        "maxItems": 1,
+        "value": {
+          "kind": "enum",
+          "values": [
+            "auto",
+            "1:1",
+            "16:9",
+            "9:16",
+            "4:3",
+            "3:4",
+            "3:2",
+            "2:3",
+            "5:4",
+            "4:5",
+            "21:9"
+          ]
+        }
+      }
+    ],
+    "requires": []
+  },
+  "fieldMappings": [
+    {
+      "port": "prompt",
+      "fieldKey": "prompt",
+      "mode": "scalar"
+    },
+    {
+      "port": "aspectRatio",
+      "fieldKey": "aspectRatio",
+      "mode": "scalar"
+    }
+  ]
+}

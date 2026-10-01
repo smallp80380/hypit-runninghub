@@ -1,0 +1,12 @@
+Source: https://www.runninghub.ai/runninghub-api-doc-en/api-425761093
+Chinese corroboration: https://rhtv.runninghub.cn/runninghub-api-doc-cn/api-425749013
+Retrieved unauthenticated by parent: 2026-09-30 (HTTP200); selected English main content read by provider session.
+Page modified: 2026-09-17 18:52:55
+Transformation: own selected factual integration notes, not a full website snapshot or server entitlement proof.
+Native endpoint is POST /task/openapi/create with Bearer authentication and JSON content type. Host is the chosen official origin.
+Required table lists apiKey:string and workflowId:string. Optional nodeInfoList contains nodeId:string, fieldName:string and fieldValue:any matching the original expected type.
+Optional workflow is a string containing a complete custom workflow JSON. When supplied it overrides workflowId. The request example contains workflow and nodeInfoList together.
+The endpoint runs the supplied graph for this task; the page documents no operation that saves changes to an account workflow.
+Successful wrapper uses code:0 and data.taskId:string; taskStatus common examples are QUEUED/RUNNING/FAILED. Generic empty response-schema taskId:0 contradicts real example and is not adopted.
+Chinese and English incidental example typing may differ; nodeInfoList fieldValue follows the pinned typed field rule. No unrelated instanceType, retainSeconds, usePersonalQueue or webhook capability is introduced.
+Combined workflow/nodeInfoList collision precedence, backend graph normalization and Membership billing of every custom graph are not guaranteed by this source.

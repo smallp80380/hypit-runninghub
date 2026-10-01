@@ -1,0 +1,74 @@
+{
+  "format": "hypit.runtime-local@1",
+  "dataRoot": "./state",
+  "credentials": {
+    "env": {
+      "use": "@hypit/credential-store-env",
+      "config": {}
+    }
+  },
+  "endpoints": {
+    "runninghub.native": {
+      "use": "@local/provider-runninghub",
+      "config": {
+        "schemaVersion": "hypit-runninghub.config@1",
+        "family": "native-workflow",
+        "baseUrl": "https://www.runninghub.ai",
+        "apiKey": {
+          "store": "env",
+          "key": "EXPLICIT_WORKFLOW_MEMBER_KEY"
+        },
+        "keyType": "Consumer-Member",
+        "accountPreflight": {
+          "mode": "read-only-required"
+        },
+        "billingExpectation": {
+          "policy": "COINS_ONLY",
+          "ledger": "coins",
+          "gate": "require-provider-guarantee"
+        },
+        "liveBillingEvidence": {
+          "kind": "none"
+        },
+        "submissionEnabled": false,
+        "retry": {
+          "submit": {
+            "maxAttempts": 3,
+            "initialDelayMs": 2000,
+            "maxDelayMs": 15000
+          },
+          "upload": {
+            "maxAttempts": 3,
+            "initialDelayMs": 2000,
+            "maxDelayMs": 15000
+          }
+        },
+        "polling": {
+          "intervalMs": 5000,
+          "maxElapsedMs": 1800000,
+          "maxConsecutiveTransientFailures": 5
+        },
+        "http": {
+          "requestTimeoutMs": 60000,
+          "maxResponseBytes": 1048576,
+          "maxDownloadBytes": 1073741824,
+          "allowedDownloadHosts": [
+            "example.invalid"
+          ]
+        },
+        "paths": {
+          "journalDirectory": "provider-runninghub/operations"
+        },
+        "native": {
+          "workflowDescriptor": "descriptors/descriptor.json",
+          "uploadProtocol": "legacy-filename",
+          "submitProtocol": "legacy-create",
+          "queryProtocol": "v2-query"
+        }
+      }
+    }
+  },
+  "bindings": {
+    "@example/image-audio-workflow@1#image-audio-video": "runninghub.native"
+  }
+}

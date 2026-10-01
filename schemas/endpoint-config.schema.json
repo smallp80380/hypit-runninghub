@@ -1,0 +1,367 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "hypit-runninghub.config@1"
+    },
+    "family": {
+      "enum": [
+        "native-workflow",
+        "standard-model"
+      ]
+    },
+    "baseUrl": {
+      "enum": [
+        "https://www.runninghub.ai",
+        "https://www.runninghub.cn",
+        "https://www.runninghub.ai/openapi/v2",
+        "https://www.runninghub.cn/openapi/v2"
+      ]
+    },
+    "apiKey": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "store": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      },
+      "required": [
+        "store",
+        "key"
+      ]
+    },
+    "keyType": {
+      "enum": [
+        "Consumer-Member",
+        "Enterprise-Shared",
+        "Enterprise-Dedicated",
+        "unknown"
+      ]
+    },
+    "accountPreflight": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "const": "read-only-required"
+        }
+      },
+      "required": [
+        "mode"
+      ]
+    },
+    "billingExpectation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "policy": {
+          "const": "COINS_ONLY"
+        },
+        "ledger": {
+          "const": "coins"
+        },
+        "gate": {
+          "const": "require-provider-guarantee"
+        }
+      },
+      "required": [
+        "policy",
+        "ledger",
+        "gate"
+      ]
+    },
+    "liveBillingEvidence": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "none"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "private-file"
+            },
+            "path": {
+              "type": "string",
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9_./-]+$",
+              "maxLength": 300
+            }
+          },
+          "required": [
+            "kind",
+            "path"
+          ]
+        }
+      ]
+    },
+    "submissionEnabled": {
+      "type": "boolean"
+    },
+    "retry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "submit": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "maxAttempts": {
+              "const": 3
+            },
+            "initialDelayMs": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 60000
+            },
+            "maxDelayMs": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 300000
+            }
+          },
+          "required": [
+            "maxAttempts",
+            "initialDelayMs",
+            "maxDelayMs"
+          ]
+        },
+        "upload": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "maxAttempts": {
+              "const": 3
+            },
+            "initialDelayMs": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 60000
+            },
+            "maxDelayMs": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 300000
+            }
+          },
+          "required": [
+            "maxAttempts",
+            "initialDelayMs",
+            "maxDelayMs"
+          ]
+        }
+      },
+      "required": [
+        "submit",
+        "upload"
+      ]
+    },
+    "polling": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "intervalMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 600000
+        },
+        "maxElapsedMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 86400000
+        },
+        "maxConsecutiveTransientFailures": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20
+        }
+      },
+      "required": [
+        "intervalMs",
+        "maxElapsedMs",
+        "maxConsecutiveTransientFailures"
+      ]
+    },
+    "http": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requestTimeoutMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 600000
+        },
+        "maxResponseBytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10485760
+        },
+        "maxDownloadBytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967296
+        },
+        "allowedDownloadHosts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9.-]+$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "requestTimeoutMs",
+        "maxResponseBytes",
+        "maxDownloadBytes",
+        "allowedDownloadHosts"
+      ]
+    },
+    "paths": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "journalDirectory": {
+          "type": "string",
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9_./-]+$",
+          "maxLength": 300
+        }
+      },
+      "required": [
+        "journalDirectory"
+      ]
+    },
+    "native": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "workflowDescriptor": {
+          "type": "string",
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9_./-]+$",
+          "maxLength": 300
+        },
+        "uploadProtocol": {
+          "const": "legacy-filename"
+        },
+        "submitProtocol": {
+          "const": "legacy-create"
+        },
+        "queryProtocol": {
+          "const": "v2-query"
+        }
+      },
+      "required": [
+        "workflowDescriptor",
+        "uploadProtocol",
+        "submitProtocol",
+        "queryProtocol"
+      ]
+    },
+    "standard": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "registrySha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "modelDescriptors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9_./-]+$",
+            "maxLength": 300
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "registrySha256",
+        "modelDescriptors"
+      ]
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "family",
+    "baseUrl",
+    "apiKey",
+    "keyType",
+    "accountPreflight",
+    "billingExpectation",
+    "liveBillingEvidence",
+    "submissionEnabled",
+    "retry",
+    "polling",
+    "http",
+    "paths"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:hypit-runninghub:endpoint-config:1",
+  "title": "Stage 1 proposed package configuration; no live execution support",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "family": {
+            "const": "native-workflow"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "native"
+        ],
+        "properties": {
+          "standard": false,
+          "baseUrl": {
+            "pattern": "^https://[a-z0-9.-]+(?::[0-9]+)?$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "family": {
+            "const": "standard-model"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "standard"
+        ],
+        "properties": {
+          "native": false,
+          "keyType": {
+            "const": "Enterprise-Shared"
+          },
+          "baseUrl": {
+            "pattern": "^https://[a-z0-9.-]+(?::[0-9]+)?/openapi/v2$"
+          }
+        }
+      }
+    }
+  ]
+}

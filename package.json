@@ -1,0 +1,86 @@
+{
+  "name": "@local/provider-runninghub",
+  "version": "0.0.4",
+  "private": true,
+  "type": "module",
+  "description": "Hypit generic native RunningHub workflow account Provider with per-operation reviewed Membership Coins execution",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test:stage2": "node tests/stage2-core.test.js",
+    "test:stage3": "node --import ./tests/sdk-register.js tests/stage3-native.test.js",
+    "test:stage3.1": "node --import ./tests/sdk-register.js tests/stage3-1-member-binding.test.js",
+    "test:stage4": "node --import ./tests/sdk-register.js tests/stage4-registry.test.js",
+    "test:workflow": "node tests/workflow-editor.test.js",
+    "test:workflow:installed": "node tests/workflow-installed.test.js",
+    "test:workflow:v2": "node --import ./tests/sdk-register.js tests/workflow-provider-v2.test.js",
+    "test:generic": "node --import ./tests/sdk-register.js tests/generic-workflow.test.js",
+    "test:generic:author": "node --import ./tests/sdk-register.js tests/generic-author.test.js"
+  },
+  "devDependencies": {
+    "@hypit/hypit": "0.2.16"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./native": "./native/provider.js",
+    "./native-descriptor": "./native/descriptor.js",
+    "./member-binding": "./native/member-binding.js",
+    "./registry": "./registry/catalog.js",
+    "./registry-descriptor": "./registry/descriptor.js",
+    "./schemas/*": "./schemas/*",
+    "./model-registry.public.json": "./sources/developer-kit/model-registry.public.json",
+    "./workflow": "./workflow/index.js",
+    "./generic": "./generic/index.js",
+    "./workflow-document": "./generic/document.js",
+    "./author-source": "./generic/author-source.js",
+    "./review-candidate": "./generic/review-candidate.js"
+  },
+  "hypit": {
+    "activation": "./activation.js"
+  },
+  "files": [
+    "index.js",
+    "activation.js",
+    "core/",
+    "generic/",
+    "native/",
+    "registry/",
+    "schemas/",
+    "examples/",
+    "README.md",
+    "DEVELOPMENT.md",
+    "docs/configuration.md",
+    "docs/contracts.md",
+    "docs/generic-workflow.md",
+    "docs/coverage.md",
+    "docs/member-binding.md",
+    "sources/public-manifest.json",
+    "sources/developer-kit/model-registry.public.json",
+    "sources/developer-kit/LICENSE.upstream",
+    "sources/native/membership-billing.txt",
+    "sources/native/workflow-result-fields.txt",
+    "!sources/developer-kit/README.md",
+    "workflow/",
+    "bin/",
+    "scaffold/",
+    "docs/workflow-management.md",
+    "docs/REUSE_RU.md",
+    "docs/WORKFLOW_CHANGES_RU.md",
+    "sources/developer-kit/llms.txt",
+    "sources/developer-kit/rh-api-contract.md",
+    "sources/native/inline-workflow-contract.txt",
+    "sources/native/generic-transport-contract.txt"
+  ],
+  "peerDependencies": {
+    "@hypit/hypit": "0.2.16"
+  },
+  "peerDependenciesMeta": {
+    "@hypit/hypit": {
+      "optional": true
+    }
+  },
+  "bin": {
+    "rh-workflow": "./bin/rh-workflow.js"
+  }
+}

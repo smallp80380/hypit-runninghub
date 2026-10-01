@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "hypit-runninghub.model@1",
+  "execution": "deferred-coins-only",
+  "registryEndpoint": "rhart-image-v1/edit",
+  "registrySha256": "61b682b097fdf8766a70c774464b3682ca2494b0f2a0d8de105bd0a77c825a1a",
+  "entrySha256": "40e438da3c97ce33f2f33342128e400bdb84a08795998d866667b679f4bb603f",
+  "capability": {
+    "module": {
+      "name": "@example/runninghub-models",
+      "version": "1"
+    },
+    "name": "rhart-image-v1-edit"
+  },
+  "portTable": {
+    "model": "rhart-image-v1-edit",
+    "result": "image",
+    "ports": [
+      {
+        "name": "prompt",
+        "minItems": 1,
+        "maxItems": 1,
+        "value": {
+          "kind": "text",
+          "maxChars": 20000
+        }
+      },
+      {
+        "name": "aspectRatio",
+        "minItems": 1,
+        "maxItems": 1,
+        "value": {
+          "kind": "enum",
+          "values": [
+            "empty",
+            "auto",
+            "1:1",
+            "16:9",
+            "9:16",
+            "4:3",
+            "3:4",
+            "3:2",
+            "2:3",
+            "5:4",
+            "4:5",
+            "21:9"
+          ]
+        }
+      },
+      {
+        "name": "imageUrls",
+        "minItems": 1,
+        "maxItems": 5,
+        "value": {
+          "kind": "media",
+          "accepts": [
+            "image"
+          ]
+        }
+      }
+    ],
+    "requires": []
+  },
+  "fieldMappings": [
+    {
+      "port": "prompt",
+      "fieldKey": "prompt",
+      "mode": "scalar"
+    },
+    {
+      "port": "aspectRatio",
+      "fieldKey": "aspectRatio",
+      "mode": "scalar"
+    },
+    {
+      "port": "imageUrls",
+      "fieldKey": "imageUrls",
+      "mode": "urlArray"
+    }
+  ]
+}

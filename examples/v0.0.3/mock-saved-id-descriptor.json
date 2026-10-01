@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "hypit-runninghub.workflow@2",
+  "fixtureOnly": true,
+  "sourceMode": "saved-id",
+  "workflowId": "1000000000000000003",
+  "graphFile": "graphs/mock-image-audio-graph.json",
+  "graphDigest": {
+    "algorithm": "sha256",
+    "canonicalization": "json-sorted-keys@1",
+    "value": "d1decdc17a0afe475ab1679887857f4dfaa59cd6a80a8af2a482ff9024656742"
+  },
+  "capability": {
+    "module": {
+      "name": "@example/image-audio-workflow",
+      "version": "1"
+    },
+    "name": "image-audio-video"
+  },
+  "portTable": {
+    "model": "image-audio-video",
+    "result": "video",
+    "ports": [
+      {
+        "name": "prompt",
+        "minItems": 1,
+        "maxItems": 1,
+        "value": {
+          "kind": "text",
+          "maxChars": 20000
+        }
+      },
+      {
+        "name": "image",
+        "minItems": 1,
+        "maxItems": 1,
+        "value": {
+          "kind": "media",
+          "accepts": [
+            "image"
+          ]
+        }
+      },
+      {
+        "name": "audio",
+        "minItems": 1,
+        "maxItems": 1,
+        "value": {
+          "kind": "media",
+          "accepts": [
+            "audio"
+          ]
+        }
+      },
+      {
+        "name": "seed",
+        "minItems": 1,
+        "maxItems": 1,
+        "value": {
+          "kind": "number",
+          "integer": true
+        }
+      },
+      {
+        "name": "duration",
+        "minItems": 1,
+        "maxItems": 1,
+        "value": {
+          "kind": "number"
+        }
+      },
+      {
+        "name": "audioStart",
+        "minItems": 1,
+        "maxItems": 1,
+        "value": {
+          "kind": "number"
+        }
+      }
+    ],
+    "requires": []
+  },
+  "bindings": [
+    {
+      "port": "prompt",
+      "transport": "scalar",
+      "targets": [
+        {
+          "itemIndex": 0,
+          "nodeId": "20",
+          "fieldName": "text",
+          "expectedClassType": "MockPrompt"
+        }
+      ]
+    },
+    {
+      "port": "image",
+      "transport": "legacy-filename",
+      "targets": [
+        {
+          "itemIndex": 0,
+          "nodeId": "10",
+          "fieldName": "image",
+          "expectedClassType": "MockImage"
+        }
+      ]
+    },
+    {
+      "port": "audio",
+      "transport": "legacy-filename",
+      "targets": [
+        {
+          "itemIndex": 0,
+          "nodeId": "11",
+          "fieldName": "audio",
+          "expectedClassType": "MockAudio"
+        }
+      ]
+    },
+    {
+      "port": "seed",
+      "transport": "scalar",
+      "targets": [
+        {
+          "itemIndex": 0,
+          "nodeId": "30",
+          "fieldName": "seed",
+          "expectedClassType": "MockSampler"
+        }
+      ]
+    },
+    {
+      "port": "duration",
+      "transport": "scalar",
+      "targets": [
+        {
+          "itemIndex": 0,
+          "nodeId": "30",
+          "fieldName": "duration",
+          "expectedClassType": "MockSampler"
+        }
+      ]
+    },
+    {
+      "port": "audioStart",
+      "transport": "scalar",
+      "targets": [
+        {
+          "itemIndex": 0,
+          "nodeId": "30",
+          "fieldName": "audioStart",
+          "expectedClassType": "MockSampler"
+        }
+      ]
+    }
+  ]
+}

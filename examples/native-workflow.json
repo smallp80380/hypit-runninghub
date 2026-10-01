@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "hypit-runninghub.workflow@1",
+  "fixtureOnly": true,
+  "workflowId": "1000000000000000001",
+  "graphFile": "fixtures/mock-native-graph.json",
+  "graphDigest": {
+    "algorithm": "sha256",
+    "canonicalization": "json-sorted-keys@1",
+    "value": "ee9e43104a981d6ac47131a8f2cc4e14c592e795acca7bc6bd2da14987bbb972"
+  },
+  "capability": {
+    "module": {
+      "name": "@example/native-reference-video",
+      "version": "1"
+    },
+    "name": "reference-video"
+  },
+  "portTable": {
+    "model": "reference-video",
+    "result": "video",
+    "ports": [
+      {
+        "name": "prompt",
+        "minItems": 1,
+        "maxItems": 1,
+        "value": {
+          "kind": "text",
+          "maxChars": 20000
+        }
+      },
+      {
+        "name": "referenceImage",
+        "minItems": 2,
+        "maxItems": 2,
+        "value": {
+          "kind": "media",
+          "accepts": [
+            "image"
+          ]
+        }
+      }
+    ],
+    "requires": []
+  },
+  "bindings": [
+    {
+      "port": "prompt",
+      "transport": "scalar",
+      "targets": [
+        {
+          "itemIndex": 0,
+          "nodeId": "20",
+          "fieldName": "text",
+          "expectedClassType": "MockPromptInput"
+        }
+      ]
+    },
+    {
+      "port": "referenceImage",
+      "transport": "legacy-filename",
+      "targets": [
+        {
+          "itemIndex": 0,
+          "nodeId": "10",
+          "fieldName": "image",
+          "expectedClassType": "LoadImage"
+        },
+        {
+          "itemIndex": 1,
+          "nodeId": "11",
+          "fieldName": "image",
+          "expectedClassType": "LoadImage"
+        }
+      ]
+    }
+  ]
+}

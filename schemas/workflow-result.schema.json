@@ -1,0 +1,72 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "format": {
+      "const": "hypit-runninghub.result@1"
+    },
+    "taskId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "blob": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "kind": {
+                "const": "blob"
+              },
+              "resource": {
+                "type": "string",
+                "pattern": "^res_.+$"
+              },
+              "size": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "mediaType": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "kind",
+              "resource",
+              "size",
+              "mediaType"
+            ]
+          },
+          "outputType": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "blob",
+          "outputType"
+        ]
+      }
+    },
+    "usage": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "format",
+    "taskId",
+    "outputs"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:hypit-runninghub:workflow-result:1",
+  "title": "Heterogeneous ordered ResourceStore output collection, including zero outputs"
+}

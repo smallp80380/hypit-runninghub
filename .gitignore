@@ -1,0 +1,9 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.hypit/
+state/
+*.log
+*.tmp
+npm-cache/

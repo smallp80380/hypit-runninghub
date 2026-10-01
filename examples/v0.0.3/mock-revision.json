@@ -1,0 +1,64 @@
+{
+  "format": "hypit-runninghub.revision@1",
+  "graphDigest": {
+    "algorithm": "sha256",
+    "canonicalization": "json-sorted-keys@1",
+    "value": "d1decdc17a0afe475ab1679887857f4dfaa59cd6a80a8af2a482ff9024656742"
+  },
+  "parentDigest": null,
+  "graph": {
+    "10": {
+      "class_type": "MockImage",
+      "inputs": {
+        "image": ""
+      }
+    },
+    "11": {
+      "class_type": "MockAudio",
+      "inputs": {
+        "audio": ""
+      }
+    },
+    "20": {
+      "class_type": "MockPrompt",
+      "inputs": {
+        "text": ""
+      }
+    },
+    "30": {
+      "class_type": "MockSampler",
+      "inputs": {
+        "seed": 1,
+        "duration": 2,
+        "audioStart": 0,
+        "image": [
+          "10",
+          0
+        ],
+        "audio": [
+          "11",
+          0
+        ],
+        "prompt": [
+          "20",
+          0
+        ]
+      }
+    },
+    "40": {
+      "class_type": "MockVideoOutput",
+      "inputs": {
+        "video": [
+          "30",
+          0
+        ]
+      }
+    }
+  },
+  "provenance": {
+    "kind": "import-file",
+    "sourceDigest": "d1decdc17a0afe475ab1679887857f4dfaa59cd6a80a8af2a482ff9024656742"
+  },
+  "semanticValidation": "UNVERIFIED",
+  "revisionDigest": "258854ba528b3839989271be142e04fade2cfdf0812298801ee6672bb6210bc0"
+}

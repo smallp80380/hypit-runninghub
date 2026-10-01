@@ -1,0 +1,124 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "format": {
+      "const": "hypit-runninghub.request@1"
+    },
+    "workflowId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workflowJson": {
+      "type": "string",
+      "description": "Bounded strict API graph JSON; inline workflow overrides required workflowId."
+    },
+    "nodeInfoList": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "nodeId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fieldName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fieldValue": {}
+        },
+        "required": [
+          "nodeId",
+          "fieldName",
+          "fieldValue"
+        ]
+      }
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "blob": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "kind": {
+                "const": "blob"
+              },
+              "resource": {
+                "type": "string",
+                "pattern": "^res_.+$"
+              },
+              "size": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "mediaType": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "kind",
+              "resource",
+              "size",
+              "mediaType"
+            ]
+          }
+        },
+        "required": [
+          "key",
+          "blob"
+        ]
+      }
+    },
+    "bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "fileKey": {
+            "type": "string",
+            "minLength": 1
+          },
+          "nodeId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fieldName": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "fileKey",
+          "nodeId",
+          "fieldName"
+        ]
+      }
+    },
+    "review": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "format",
+    "workflowId",
+    "nodeInfoList",
+    "files",
+    "bindings"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:hypit-runninghub:workflow-request:1",
+  "title": "Per-operation native workflow request; no reference count or workflow whitelist"
+}

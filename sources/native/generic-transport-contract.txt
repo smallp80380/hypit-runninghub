@@ -1,0 +1,5 @@
+RunningHub generic native transport factual pin
+Source: https://rhtv.runninghub.cn/runninghub-api-doc-cn/api-425749008
+Pinned upload.txt SHA256: fb93b3cad082afed71efede8c95040100c314fa98204f2508e3595985df49757
+The documented legacy upload route is /task/openapi/upload. It accepts multipart files, returns data.fileName for exact node input use, and is not a general file hosting API. Supported formats include JPG/PNG/JPEG/WEBP; image ZIP archives; MP3/WAV/FLAC; MP4/AVI/MOV/MKV. All file types have the documented 30MB limit. No local ZIP extraction, content decoding or backend custom-node guarantee is inferred.
+Full inline workflow follows sources/native/inline-workflow-contract.txt. workflowId remains a required string; optional workflow:string overrides it for one task. nodeInfoList fieldValue retains its expected JSON type. Native query outputType describes a file extension; it is not a complete media-category enum. Generic ResourceStore output collection does not declare new service enum values.

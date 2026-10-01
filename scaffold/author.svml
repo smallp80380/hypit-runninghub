@@ -1,0 +1,8 @@
+<?svml using="@hypit/markup@1"?>
+<svml>
+  <import as="asset" from="@hypit/media@1"/>
+  <import as="workflow" from="@example/image-audio-workflow@1"/>
+  <asset:Image id="referenceImage" src="./assets/reference.png"/>
+  <asset:Audio id="referenceAudio" src="./assets/reference.wav"/>
+  <workflow:Workflow id="demo" prompt="Inert example prompt" image={referenceImage} audio={referenceAudio} seed="42" audioStart="0.25" duration="2.5"/>
+</svml>

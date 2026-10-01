@@ -1,0 +1,245 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:hypit-runninghub:workflow-revision:1",
+  "title": "PROPOSED immutable local API-format graph revision; structural limits are package resource bounds, not server node schemas",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "format": {
+      "const": "hypit-runninghub.revision@1"
+    },
+    "graphDigest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "canonicalization": {
+          "const": "json-sorted-keys@1"
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "algorithm",
+        "canonicalization",
+        "value"
+      ]
+    },
+    "parentDigest": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "graph": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 10000,
+      "propertyNames": {
+        "pattern": "^(?!(?:__proto__|constructor|prototype)$)[A-Za-z0-9_-]{1,100}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/node"
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "import-file",
+            "fetched-workflow",
+            "local-edit"
+          ]
+        },
+        "sourceDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "workflowId": {
+          "type": "string",
+          "pattern": "^[0-9]{1,40}$"
+        },
+        "baseUrl": {
+          "enum": [
+            "https://www.runninghub.ai",
+            "https://www.runninghub.cn"
+          ]
+        }
+      },
+      "required": [
+        "kind"
+      ]
+    },
+    "semanticValidation": {
+      "const": "UNVERIFIED"
+    },
+    "revisionDigest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "format",
+    "graphDigest",
+    "parentDigest",
+    "graph",
+    "provenance",
+    "semanticValidation",
+    "revisionDigest"
+  ],
+  "$defs": {
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "propertyNames": {
+        "not": {
+          "enum": [
+            "__proto__",
+            "prototype",
+            "constructor"
+          ]
+        },
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "properties": {
+        "class_type": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "inputs": {
+          "type": "object",
+          "maxProperties": 1000,
+          "propertyNames": {
+            "not": {
+              "enum": [
+                "__proto__",
+                "prototype",
+                "constructor"
+              ]
+            },
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "type": [
+                  "null",
+                  "boolean",
+                  "number",
+                  "string"
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "prefixItems": [
+                  {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9_-]{1,100}$"
+                  },
+                  {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000000
+                  }
+                ],
+                "items": false
+              },
+              {
+                "type": "object",
+                "propertyNames": {
+                  "not": {
+                    "enum": [
+                      "__proto__",
+                      "prototype",
+                      "constructor"
+                    ]
+                  },
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "additionalProperties": {
+                  "$ref": "#/$defs/jsonSafe"
+                }
+              }
+            ]
+          }
+        },
+        "_meta": {
+          "type": "object",
+          "maxProperties": 100,
+          "propertyNames": {
+            "not": {
+              "enum": [
+                "__proto__",
+                "prototype",
+                "constructor"
+              ]
+            },
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/jsonSafe"
+          }
+        }
+      },
+      "required": [
+        "class_type",
+        "inputs"
+      ]
+    },
+    "jsonSafe": {
+      "oneOf": [
+        {
+          "type": [
+            "null",
+            "boolean",
+            "number",
+            "string"
+          ]
+        },
+        {
+          "type": "array",
+          "maxItems": 10000,
+          "items": {
+            "$ref": "#/$defs/jsonSafe"
+          }
+        },
+        {
+          "type": "object",
+          "maxProperties": 10000,
+          "propertyNames": {
+            "not": {
+              "enum": [
+                "__proto__",
+                "prototype",
+                "constructor"
+              ]
+            },
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/jsonSafe"
+          }
+        }
+      ]
+    }
+  }
+}

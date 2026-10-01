@@ -1,0 +1,10 @@
+Source: https://www.runninghub.ai/call-api/api-detail/1923539279828742146?apiType=5
+Retrieved: 2026-09-30; public page read fully through web representation.
+Representation: selected factual note, not a complete HTML snapshot.
+Sections: Submit request / Response Fields; Query Result / Response Example and Response Fields.
+Native results[].outputType describes a file extension: examples png, mp4, txt. Query example uses png.
+The separately pinned V2 query page uses jpg. This differs from Model API image/video role examples.
+Query usage fields: consumeMoney (runtime cost), consumeCoins (RH coins), thirdPartyConsumeMoney (external API cost), taskCostTime (runtime). These are strings in the field table; the example permits null amounts and taskCostTime string 0.
+Common task states: QUEUED, RUNNING, SUCCESS, FAILED. This is not a complete enum guarantee.
+Result URLs expire; download or transfer them within the documented validity window.
+This source does not replace the selected legacy create/upload endpoint contracts or authorize a different route.

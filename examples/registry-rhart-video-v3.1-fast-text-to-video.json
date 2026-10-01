@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "hypit-runninghub.model@1",
+  "execution": "deferred-coins-only",
+  "registryEndpoint": "rhart-video-v3.1-fast/text-to-video",
+  "registrySha256": "61b682b097fdf8766a70c774464b3682ca2494b0f2a0d8de105bd0a77c825a1a",
+  "entrySha256": "a4ee861bb2ed42c95423b206cb52dc23500cca53aa322f6cbf08f7f8bf3d9f99",
+  "capability": {
+    "module": {
+      "name": "@example/runninghub-models",
+      "version": "1"
+    },
+    "name": "rhart-video-v3.1-fast-text-to-video"
+  },
+  "portTable": {
+    "model": "rhart-video-v3.1-fast-text-to-video",
+    "result": "video",
+    "ports": [
+      {
+        "name": "prompt",
+        "minItems": 1,
+        "maxItems": 1,
+        "value": {
+          "kind": "text",
+          "maxChars": 8000
+        }
+      },
+      {
+        "name": "aspectRatio",
+        "minItems": 1,
+        "maxItems": 1,
+        "value": {
+          "kind": "enum",
+          "values": [
+            "16:9",
+            "9:16"
+          ]
+        }
+      },
+      {
+        "name": "duration",
+        "minItems": 0,
+        "maxItems": 1,
+        "value": {
+          "kind": "enum",
+          "values": [
+            "8"
+          ]
+        }
+      },
+      {
+        "name": "resolution",
+        "minItems": 1,
+        "maxItems": 1,
+        "value": {
+          "kind": "enum",
+          "values": [
+            "720p",
+            "1080p",
+            "4k"
+          ]
+        }
+      }
+    ],
+    "requires": []
+  },
+  "fieldMappings": [
+    {
+      "port": "prompt",
+      "fieldKey": "prompt",
+      "mode": "scalar"
+    },
+    {
+      "port": "aspectRatio",
+      "fieldKey": "aspectRatio",
+      "mode": "scalar"
+    },
+    {
+      "port": "duration",
+      "fieldKey": "duration",
+      "mode": "scalar"
+    },
+    {
+      "port": "resolution",
+      "fieldKey": "resolution",
+      "mode": "scalar"
+    }
+  ]
+}

@@ -1,0 +1,358 @@
+{
+  "format": "hypit-runninghub.public-sources@1",
+  "officialRunningHubCommit": "8f9c858e7e631a1c1c49df0c4defd77fdd690dd4",
+  "sdkVersion": "0.2.16",
+  "registryModelCount": 383,
+  "redistributedFiles": [
+    {
+      "path": "sources/developer-kit/model-registry.public.json",
+      "sha256": "61b682b097fdf8766a70c774464b3682ca2494b0f2a0d8de105bd0a77c825a1a"
+    },
+    {
+      "path": "sources/developer-kit/LICENSE.upstream",
+      "sha256": "fd33964461d9c23bef5080397545d94252baf46d0c58621c943cdffce4c8b5c4"
+    },
+    {
+      "path": "sources/native/membership-billing.txt",
+      "sha256": "becf0e9cb51ceee2460b77ebeddc394343e7e982f9fdbb029a3e6e4055386097"
+    },
+    {
+      "path": "sources/native/workflow-result-fields.txt",
+      "sha256": "6613f93ce7a8b36bc2e5935bb1f8b6f37a6d207438c555a93b5ee01ac09cd5c8"
+    },
+    {
+      "path": "sources/developer-kit/llms.txt",
+      "sha256": "cbcb91b53912c3102e0166ec5a05379256b7cf2ec31dee5b9534dec48d0435a1"
+    },
+    {
+      "path": "sources/developer-kit/rh-api-contract.md",
+      "sha256": "7e289db8e33c5713b54c9dd4599b79df519822d71ff17f6eb0e7b289f05f3eb5"
+    },
+    {
+      "path": "sources/native/inline-workflow-contract.txt",
+      "sha256": "c65c0c1567fff3e8e99cb204fa985068fc2ed98682957882d09b1fc9e7046927"
+    },
+    {
+      "path": "sources/native/generic-transport-contract.txt",
+      "sha256": "c358f51af3ddc7f2a1e0bd58c1000589f5e6c700603a57d1e73f1b52e64d94e7"
+    }
+  ],
+  "sources": [
+    {
+      "id": "rh-kit-llms.txt",
+      "kind": "official-repository",
+      "upstreamUrl": "https://github.com/HM-RunningHub/ComfyUI_RH_OpenAPI/blob/8f9c858e7e631a1c1c49df0c4defd77fdd690dd4/developer-kit/llms.txt",
+      "commit": "8f9c858e7e631a1c1c49df0c4defd77fdd690dd4",
+      "retrievedAt": "2026-09-30",
+      "sha256": "cbcb91b53912c3102e0166ec5a05379256b7cf2ec31dee5b9534dec48d0435a1",
+      "modified": false
+    },
+    {
+      "id": "rh-kit-rh-api-contract.md",
+      "kind": "official-repository",
+      "upstreamUrl": "https://github.com/HM-RunningHub/ComfyUI_RH_OpenAPI/blob/8f9c858e7e631a1c1c49df0c4defd77fdd690dd4/developer-kit/rh-api-contract.md",
+      "commit": "8f9c858e7e631a1c1c49df0c4defd77fdd690dd4",
+      "retrievedAt": "2026-09-30",
+      "sha256": "7e289db8e33c5713b54c9dd4599b79df519822d71ff17f6eb0e7b289f05f3eb5",
+      "modified": false
+    },
+    {
+      "id": "rh-kit-README.md",
+      "kind": "official-repository",
+      "upstreamUrl": "https://github.com/HM-RunningHub/ComfyUI_RH_OpenAPI/blob/8f9c858e7e631a1c1c49df0c4defd77fdd690dd4/developer-kit/README.md",
+      "commit": "8f9c858e7e631a1c1c49df0c4defd77fdd690dd4",
+      "retrievedAt": "2026-09-30",
+      "sha256": "0e64af679cd15bbee9699a5970f507e34c5dadab77aafb9bc521d4d1c3bdbf93",
+      "modified": false
+    },
+    {
+      "id": "rh-kit-model-registry.public.json",
+      "kind": "official-repository",
+      "upstreamUrl": "https://github.com/HM-RunningHub/ComfyUI_RH_OpenAPI/blob/8f9c858e7e631a1c1c49df0c4defd77fdd690dd4/developer-kit/model-registry.public.json",
+      "commit": "8f9c858e7e631a1c1c49df0c4defd77fdd690dd4",
+      "retrievedAt": "2026-09-30",
+      "localPath": "sources/developer-kit/model-registry.public.json",
+      "sha256": "61b682b097fdf8766a70c774464b3682ca2494b0f2a0d8de105bd0a77c825a1a",
+      "modified": false
+    },
+    {
+      "id": "rh-kit-capabilities.md",
+      "kind": "official-repository",
+      "upstreamUrl": "https://github.com/HM-RunningHub/ComfyUI_RH_OpenAPI/blob/8f9c858e7e631a1c1c49df0c4defd77fdd690dd4/developer-kit/capabilities.md",
+      "commit": "8f9c858e7e631a1c1c49df0c4defd77fdd690dd4",
+      "retrievedAt": "2026-09-30",
+      "sha256": "df0b2015b82048c744a0827bf32f677146551ce59ddb95ef2f3dc8f5c7b8fe8d",
+      "modified": false
+    },
+    {
+      "id": "rh-kit-pricing.public.json",
+      "kind": "official-repository",
+      "upstreamUrl": "https://github.com/HM-RunningHub/ComfyUI_RH_OpenAPI/blob/8f9c858e7e631a1c1c49df0c4defd77fdd690dd4/developer-kit/pricing.public.json",
+      "commit": "8f9c858e7e631a1c1c49df0c4defd77fdd690dd4",
+      "retrievedAt": "2026-09-30",
+      "sha256": "c7b1163e578515f8380d4ff0b41a9ea83ec8815d4b80cb3ab3ab31b6f6d5d5dd",
+      "modified": false
+    },
+    {
+      "id": "rh-license",
+      "kind": "official-repository",
+      "upstreamUrl": "https://github.com/HM-RunningHub/ComfyUI_RH_OpenAPI/blob/8f9c858e7e631a1c1c49df0c4defd77fdd690dd4/LICENSE",
+      "commit": "8f9c858e7e631a1c1c49df0c4defd77fdd690dd4",
+      "retrievedAt": "2026-09-30",
+      "localPath": "sources/developer-kit/LICENSE.upstream",
+      "sha256": "fd33964461d9c23bef5080397545d94252baf46d0c58621c943cdffce4c8b5c4",
+      "modified": false
+    },
+    {
+      "id": "rh-native-create",
+      "kind": "official-website",
+      "upstreamUrl": "https://rhtv.runninghub.cn/runninghub-api-doc-cn/api-425749013",
+      "retrievedAt": "2026-09-30",
+      "upstreamModifiedAt": "2026-09-17 18:52:55",
+      "rawHtmlSha256": "ee39b31da1a00fc90ff60a9727236a931ee8f2fd4120d25bbafd37087ce35212",
+      "sha256": "6361af49c217355ebb768fa66e5e06d84728eaf50722217f09e50b8342d33219",
+      "modified": true,
+      "transformation": "HTML visible-text extraction; main content only; NUL removed; no API response captured"
+    },
+    {
+      "id": "rh-native-get-workflow",
+      "kind": "official-website",
+      "upstreamUrl": "https://rhtv.runninghub.cn/runninghub-api-doc-cn/api-425749014",
+      "retrievedAt": "2026-09-30",
+      "upstreamModifiedAt": "2026-03-10 11:44:01",
+      "rawHtmlSha256": "8ec3240a6817af45a42976d37e00f2e8b439a9915ffbac82ee4e23ab09aa8c18",
+      "sha256": "62efb1642036054b1a002afcce3b55dbf19db475971cdc3170a772e804a55b9c",
+      "modified": true,
+      "transformation": "HTML visible-text extraction; main content only; NUL removed; no API response captured"
+    },
+    {
+      "id": "rh-native-node-info",
+      "kind": "official-website",
+      "upstreamUrl": "https://rhtv.runninghub.cn/runninghub-api-doc-cn/doc-8287336",
+      "retrievedAt": "2026-09-30",
+      "upstreamModifiedAt": "2026-06-04 07:45:01",
+      "rawHtmlSha256": "69cf25077a48696e74156e50f2c9ac2be1497bdd2711f8be0372e1d6c090b242",
+      "sha256": "50836fe0bb0d7f558386e47f36859fd4811ccd880261991b20d42e28b6a4e785",
+      "modified": true,
+      "transformation": "HTML visible-text extraction; main content only; NUL removed; no API response captured"
+    },
+    {
+      "id": "rh-native-upload",
+      "kind": "official-website",
+      "upstreamUrl": "https://rhtv.runninghub.cn/runninghub-api-doc-cn/api-425749008",
+      "retrievedAt": "2026-09-30",
+      "upstreamModifiedAt": "2026-03-10 11:44:01",
+      "rawHtmlSha256": "c7e2c23095d00af0cd1a4e6ed6b86ec35636e30aa8464bfe171781f9aacf4c8a",
+      "sha256": "fb93b3cad082afed71efede8c95040100c314fa98204f2508e3595985df49757",
+      "modified": true,
+      "transformation": "HTML visible-text extraction; main content only; NUL removed; no API response captured"
+    },
+    {
+      "id": "rh-native-query",
+      "kind": "official-website",
+      "upstreamUrl": "https://www.runninghub.cn/runninghub-api-doc-en/api-425767807",
+      "retrievedAt": "2026-09-30",
+      "upstreamModifiedAt": "2026-03-10 12:45:41",
+      "rawHtmlSha256": "6923ef575342c597016ca51f63187e2b02a327335545bb2f7449312aa9ef6dbe",
+      "sha256": "397e41248da8d6daee5ce5c9cf9c5d8d809ee4cd4b05bd1fe820df1fb9b2071b",
+      "modified": true,
+      "transformation": "HTML visible-text extraction; main content only; NUL removed; no API response captured"
+    },
+    {
+      "id": "rh-native-errors",
+      "kind": "official-website",
+      "upstreamUrl": "https://www.runninghub.cn/runninghub-api-doc-en/doc-8287467",
+      "retrievedAt": "2026-09-30",
+      "upstreamModifiedAt": "2026-09-17 18:52:56",
+      "rawHtmlSha256": "53992b038926149009a0534498f8c6d0601608e60448d06b0f10d850fa55623d",
+      "sha256": "7dad97b21321e041f3548b3d180f5734948141929787032b0dead778dc541c86",
+      "modified": true,
+      "transformation": "HTML visible-text extraction; main content only; NUL removed; no API response captured"
+    },
+    {
+      "id": "rh-native-getting-started",
+      "kind": "official-website",
+      "upstreamUrl": "https://www.runninghub.ai/runninghub-api-doc-en/",
+      "retrievedAt": "2026-09-30",
+      "upstreamModifiedAt": "2026-07-05 05:09:58",
+      "rawHtmlSha256": "6aea6280d98f4a118a79ce169ed2abe9ecc94f37bf9fe0dd38c43511bd440b2e",
+      "sha256": "0e150db2785d7a1ad50e43740dc12efb714701848e650821446133ee56c26118",
+      "modified": true,
+      "transformation": "HTML visible-text extraction; main content only; NUL removed; no API response captured"
+    },
+    {
+      "id": "rh-native-account",
+      "kind": "official-website",
+      "upstreamUrl": "https://www.runninghub.ai/runninghub-api-doc-en/api-425761030",
+      "retrievedAt": "2026-09-30",
+      "upstreamModifiedAt": "2026-03-10 12:15:41",
+      "rawHtmlSha256": "9477dca71a0ec8d95da9a9a06fdc059fa216664e9bcf3a4199a87df703a7b58d",
+      "sha256": "d10084b0b0b40e300190eb70ba7e2ac2dced860b340294cb356377ec9bb6e8e8",
+      "modified": true,
+      "transformation": "HTML visible-text extraction; main content only; NUL removed; no API response captured"
+    },
+    {
+      "id": "hypit-model-kit-README.md",
+      "kind": "installed-public-sdk-owner",
+      "distributionVersion": "0.2.16",
+      "publicImport": "@hypit/hypit/model-kit",
+      "sha256": "37e7a33d16bd5a73e33e7200fc8f781d8fba03508adbab3edc268b0767d7364b",
+      "redistributed": false
+    },
+    {
+      "id": "hypit-endpoint-kit-README.md",
+      "kind": "installed-public-sdk-owner",
+      "distributionVersion": "0.2.16",
+      "publicImport": "@hypit/hypit/endpoint-kit",
+      "sha256": "4cfebe142b4603a7f841db1eaa97f1c6fb2a74e5eed8758ad20140e43ffcda69",
+      "redistributed": false
+    },
+    {
+      "id": "hypit-runtime-kit-README.md",
+      "kind": "installed-public-sdk-owner",
+      "distributionVersion": "0.2.16",
+      "publicImport": "@hypit/hypit/runtime-kit",
+      "sha256": "26ebe33b1585feacdfa40f1154bdb24dabbd22168afdcc1bdc483d6ac6b5578f",
+      "redistributed": false
+    },
+    {
+      "id": "hypit-generation-README.md",
+      "kind": "installed-public-sdk-owner",
+      "distributionVersion": "0.2.16",
+      "publicImport": "@hypit/hypit/generation",
+      "sha256": "b64e4539f8c27a1b8eb10ab4b4cccf47103e0faed645a057b9376484b1236a7c",
+      "redistributed": false
+    },
+    {
+      "id": "hypit-endpoint-kit-src-index.ts",
+      "kind": "installed-public-sdk-owner",
+      "distributionVersion": "0.2.16",
+      "publicImport": "@hypit/hypit/endpoint-kit",
+      "sha256": "b259006d6af660d4c7a3825983f9b01f3476b4143663eacab368bb0e8be4beac",
+      "redistributed": false
+    },
+    {
+      "id": "hypit-runtime-kit-src-index.ts",
+      "kind": "installed-public-sdk-owner",
+      "distributionVersion": "0.2.16",
+      "publicImport": "@hypit/hypit/runtime-kit",
+      "sha256": "8c0a83360c4f7c12104dec8c59156d28b47048dec1bc5eb875868abd82e1d445",
+      "redistributed": false
+    },
+    {
+      "id": "hypit-generation-src-ports.ts",
+      "kind": "installed-public-sdk-owner",
+      "distributionVersion": "0.2.16",
+      "publicImport": "@hypit/hypit/generation",
+      "sha256": "8c7b40a82bd437c928d1c12846f487f5d55c7511dafeb6e3198000a2cfbc5791",
+      "redistributed": false
+    },
+    {
+      "id": "hypit-skill-SKILL.md",
+      "kind": "installed-skill",
+      "sha256": "e3fafb44b8975c9840b7f212e4e9fdd6967190c2bcc70acf325b5c46c5b1c707",
+      "redistributed": false
+    },
+    {
+      "id": "hypit-skill-references-environment-model-and-provider.md",
+      "kind": "installed-skill",
+      "sha256": "c99df6dc7d0b8b96cef35b03f2438fc06092ed61e466751419ed0d81a792965f",
+      "redistributed": false
+    },
+    {
+      "id": "hypit-skill-references-production-component-sharing.md",
+      "kind": "installed-skill",
+      "sha256": "337e308c103f91b2b9bff22a78203c9cfcd2adac142e44a64d2c85e426ae7ea9",
+      "redistributed": false
+    },
+    {
+      "id": "rh-native-membership-billing",
+      "kind": "official-page-derived-facts",
+      "upstreamUrl": "https://www.runninghub.ai/enterprise-api/consumerApi",
+      "retrievedAt": "2026-09-30",
+      "representation": "selected factual note; full page read via public web; not raw snapshot",
+      "localPath": "sources/native/membership-billing.txt",
+      "sha256": "becf0e9cb51ceee2460b77ebeddc394343e7e982f9fdbb029a3e6e4055386097",
+      "redistributed": false
+    },
+    {
+      "id": "rh-native-workflow-result-fields",
+      "kind": "official-page-derived-facts",
+      "upstreamUrl": "https://www.runninghub.ai/call-api/api-detail/1923539279828742146?apiType=5",
+      "retrievedAt": "2026-09-30",
+      "representation": "selected factual note; full page read via public web; not raw snapshot",
+      "localPath": "sources/native/workflow-result-fields.txt",
+      "sha256": "6613f93ce7a8b36bc2e5935bb1f8b6f37a6d207438c555a93b5ee01ac09cd5c8",
+      "redistributed": false
+    },
+    {
+      "id": "hypit-generation-src-request.ts",
+      "kind": "installed-public-sdk-owner",
+      "distributionVersion": "0.2.16",
+      "publicImport": "@hypit/hypit/generation",
+      "sha256": "6a528d3da6ab86aff8734a79b3a886be7ef9df4b4e2accba9aeb697533606ae7",
+      "redistributed": false
+    },
+    {
+      "id": "hypit-generation-src-identity.ts",
+      "kind": "installed-public-sdk-owner",
+      "distributionVersion": "0.2.16",
+      "publicImport": "@hypit/hypit/generation",
+      "sha256": "bba7ace58d9e8dbf31e88c41c8750add4466b8426ae6c7f9491ab131ddcc54f4",
+      "redistributed": false
+    },
+    {
+      "id": "hypit-model-kit-src-index.ts",
+      "kind": "installed-public-sdk-owner",
+      "distributionVersion": "0.2.16",
+      "publicImport": "@hypit/hypit/model-kit",
+      "sha256": "95f6d8c366e138bdb92f178a28779d6cf850397bb7e18a3997679b8498a3bf95",
+      "redistributed": false
+    },
+    {
+      "id": "hypit-runtime-src-types.ts",
+      "kind": "installed-public-sdk-owner",
+      "distributionVersion": "0.2.16",
+      "publicImport": "@hypit/hypit/endpoint-kit",
+      "sha256": "5273105cd565029934811cfa434b1024c988cb04ef4c981d0d250dbb26392a31",
+      "redistributed": false
+    }
+  ],
+  "nativeV003": {
+    "sourceMode": [
+      "saved-id",
+      "inline-json"
+    ],
+    "inlineContract": {
+      "path": "sources/native/inline-workflow-contract.txt",
+      "url": "https://www.runninghub.ai/runninghub-api-doc-en/api-425761093"
+    },
+    "audioInputFormats": [
+      "MP3",
+      "WAV"
+    ],
+    "resultSelection": "explicit consumer extension policy; backend outputs unverified",
+    "coverage": "offline mock execution; real inline/audio backend not verified"
+  },
+  "nativeV004": {
+    "primary": "per-request generic native workflow operation",
+    "modelModule": "@local/provider-runninghub@1",
+    "inputFormats": [
+      "PNG",
+      "JPEG",
+      "WEBP",
+      "ZIP",
+      "MP3",
+      "WAV",
+      "FLAC",
+      "MP4",
+      "AVI",
+      "MOV",
+      "MKV"
+    ],
+    "results": "all ordered output resources; actual safe ContentType; no extension/category whitelist",
+    "review": "semantic request digest plus exact file SHA; durable full request/resource/account/key identity",
+    "sourceNote": "sources/native/generic-transport-contract.txt",
+    "verification": "intercepted offline and normal installed Hypit mock Builds; no live generic backend proof"
+  }
+}

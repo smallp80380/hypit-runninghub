@@ -1,0 +1,37 @@
+{
+  "10": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "placeholder-a.png"
+    }
+  },
+  "11": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "placeholder-b.png"
+    }
+  },
+  "20": {
+    "class_type": "MockPromptInput",
+    "inputs": {
+      "text": "fixture prompt"
+    }
+  },
+  "30": {
+    "class_type": "MockVideoGenerator",
+    "inputs": {
+      "prompt": [
+        "20",
+        0
+      ],
+      "referenceA": [
+        "10",
+        0
+      ],
+      "referenceB": [
+        "11",
+        0
+      ]
+    }
+  }
+}

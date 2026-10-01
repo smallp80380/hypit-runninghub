@@ -1,0 +1,9 @@
+{
+  "name": "@example/image-audio-workflow",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./index.js" },
+  "hypit": { "activation": "./index.js" },
+  "files": ["index.js", "descriptor.json", "graph.json"]
+}

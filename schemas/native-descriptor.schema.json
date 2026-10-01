@@ -1,0 +1,310 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "hypit-runninghub.workflow@1"
+    },
+    "fixtureOnly": {
+      "type": "boolean"
+    },
+    "workflowId": {
+      "type": "string",
+      "pattern": "^[0-9]{1,40}$"
+    },
+    "graphFile": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9_./-]+$",
+      "maxLength": 300
+    },
+    "graphDigest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "canonicalization": {
+          "const": "json-sorted-keys@1"
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "algorithm",
+        "canonicalization",
+        "value"
+      ]
+    },
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "module": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "version": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          },
+          "required": [
+            "name",
+            "version"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      },
+      "required": [
+        "module",
+        "name"
+      ]
+    },
+    "portTable": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "model": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "result": {
+          "enum": [
+            "image",
+            "video"
+          ]
+        },
+        "ports": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "minItems": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9
+              },
+              "maxItems": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9
+              },
+              "value": {
+                "oneOf": [
+                  {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "kind": {
+                            "const": "text"
+                          },
+                          "maxChars": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 1000000
+                          }
+                        },
+                        "required": [
+                          "kind"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "kind": {
+                            "const": "enum"
+                          },
+                          "values": {
+                            "type": "array",
+                            "items": {
+                              "type": [
+                                "string",
+                                "number"
+                              ]
+                            },
+                            "minItems": 1,
+                            "uniqueItems": true
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "values"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "kind": {
+                            "const": "number"
+                          },
+                          "integer": {
+                            "type": "boolean"
+                          },
+                          "minimum": {
+                            "type": "number"
+                          },
+                          "maximum": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "kind"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "kind": {
+                            "const": "boolean"
+                          }
+                        },
+                        "required": [
+                          "kind"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "kind": {
+                        "const": "media"
+                      },
+                      "accepts": {
+                        "const": [
+                          "image"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "accepts"
+                    ]
+                  }
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "minItems",
+              "maxItems",
+              "value"
+            ]
+          }
+        },
+        "requires": {
+          "type": "array",
+          "maxItems": 0
+        }
+      },
+      "required": [
+        "model",
+        "result",
+        "ports",
+        "requires"
+      ]
+    },
+    "bindings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "port": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "transport": {
+            "enum": [
+              "scalar",
+              "legacy-filename"
+            ]
+          },
+          "targets": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "itemIndex": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 8
+                },
+                "nodeId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "fieldName": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "expectedClassType": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                }
+              },
+              "required": [
+                "itemIndex",
+                "nodeId",
+                "fieldName",
+                "expectedClassType"
+              ]
+            }
+          }
+        },
+        "required": [
+          "port",
+          "transport",
+          "targets"
+        ]
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "fixtureOnly",
+    "workflowId",
+    "graphFile",
+    "graphDigest",
+    "capability",
+    "portTable",
+    "bindings"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:hypit-runninghub:native-descriptor:1",
+  "title": "Stage 1 exact native descriptor; minimal image/scalar ports; semantic checks still required"
+}

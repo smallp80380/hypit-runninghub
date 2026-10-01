@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "hypit-runninghub.model@1",
+  "execution": "deferred-coins-only",
+  "registryEndpoint": "rhart-video-v3.1-fast/image-to-video",
+  "registrySha256": "61b682b097fdf8766a70c774464b3682ca2494b0f2a0d8de105bd0a77c825a1a",
+  "entrySha256": "a7444ac4249e6ad12be3da17c328f1962230313e86c743d530fb9377bff74107",
+  "capability": {
+    "module": {
+      "name": "@example/runninghub-models",
+      "version": "1"
+    },
+    "name": "rhart-video-v3.1-fast-image-to-video"
+  },
+  "portTable": {
+    "model": "rhart-video-v3.1-fast-image-to-video",
+    "result": "video",
+    "ports": [
+      {
+        "name": "prompt",
+        "minItems": 1,
+        "maxItems": 1,
+        "value": {
+          "kind": "text",
+          "maxChars": 8000
+        }
+      },
+      {
+        "name": "aspectRatio",
+        "minItems": 1,
+        "maxItems": 1,
+        "value": {
+          "kind": "enum",
+          "values": [
+            "16:9",
+            "9:16"
+          ]
+        }
+      },
+      {
+        "name": "imageUrls",
+        "minItems": 1,
+        "maxItems": 3,
+        "value": {
+          "kind": "media",
+          "accepts": [
+            "image"
+          ]
+        }
+      },
+      {
+        "name": "duration",
+        "minItems": 0,
+        "maxItems": 1,
+        "value": {
+          "kind": "enum",
+          "values": [
+            "8"
+          ]
+        }
+      },
+      {
+        "name": "resolution",
+        "minItems": 1,
+        "maxItems": 1,
+        "value": {
+          "kind": "enum",
+          "values": [
+            "720p",
+            "1080p",
+            "4k"
+          ]
+        }
+      }
+    ],
+    "requires": []
+  },
+  "fieldMappings": [
+    {
+      "port": "prompt",
+      "fieldKey": "prompt",
+      "mode": "scalar"
+    },
+    {
+      "port": "aspectRatio",
+      "fieldKey": "aspectRatio",
+      "mode": "scalar"
+    },
+    {
+      "port": "imageUrls",
+      "fieldKey": "imageUrls",
+      "mode": "urlArray"
+    },
+    {
+      "port": "duration",
+      "fieldKey": "duration",
+      "mode": "scalar"
+    },
+    {
+      "port": "resolution",
+      "fieldKey": "resolution",
+      "mode": "scalar"
+    }
+  ]
+}

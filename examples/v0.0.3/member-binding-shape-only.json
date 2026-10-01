@@ -1,0 +1,31 @@
+{
+  "format": "REVIEWED_MEMBER_BINDING@2",
+  "family": "native-workflow",
+  "baseUrl": "https://www.runninghub.ai",
+  "credential": {
+    "reference": {
+      "store": "env",
+      "key": "EXPLICIT_WORKFLOW_MEMBER_KEY"
+    },
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "workflow": {
+    "workflowId": "1000000000000000003",
+    "graphDigest": "d1decdc17a0afe475ab1679887857f4dfaa59cd6a80a8af2a482ff9024656742",
+    "descriptorDigest": "771a43d9be4c968d4b09bbc138bde0003a0393b6c2ba66a5d9f688a99db993a7",
+    "sourceMode": "inline-json",
+    "mappingPolicy": "declared-port-inputs-only",
+    "scope": "reviewed-native-only-no-external-money"
+  },
+  "source": {
+    "url": "https://www.runninghub.ai/enterprise-api/consumerApi",
+    "noteSha256": "becf0e9cb51ceee2460b77ebeddc394343e7e982f9fdbb029a3e6e4055386097"
+  },
+  "humanReview": {
+    "kind": "project-owner-reviewed-membership-key-and-native-workflow",
+    "recordId": "INERT_NOT_APPROVED",
+    "reviewer": "example-only",
+    "reviewedAt": "2026-09-30T00:00:00.000Z"
+  },
+  "expiresAt": "2026-10-01T00:00:00.000Z"
+}
