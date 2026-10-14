@@ -34,6 +34,15 @@
         "key"
       ]
     },
+    "accessPassword": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "store": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "key": { "type": "string", "minLength": 1, "maxLength": 200 }
+      },
+      "required": ["store", "key"]
+    },
     "keyType": {
       "enum": [
         "Consumer-Member",

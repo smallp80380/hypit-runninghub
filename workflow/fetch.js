@@ -2,6 +2,7 @@ import { fail, safeError, ProviderError } from '../core/errors.js';
 import { serviceBase } from '../core/config.js';
 import { createJsonTransport, boundedBySignal } from '../core/transport.js';
 import { parseDocument, importWorkflow, safeJSON } from './revision.js';
+import { parseRunningHubTarget } from '../generic/service-target.js';
 
 export const workflowClock = Object.freeze({
   now: () => Date.now(),
@@ -14,14 +15,15 @@ export function validateFetchConfig(config) {
   safeJSON(config);
   const keys = ['format', 'baseUrl', 'workflowId', 'apiKey', 'requestTimeoutMs', 'maxResponseBytes'];
   if (!config || Array.isArray(config) || Object.keys(config).length !== keys.length || Object.keys(config).some(k => !keys.includes(k))
-    || config.format !== 'hypit-runninghub.fetch@1' || !/^[0-9]{1,40}$/.test(config.workflowId)
+    || config.format !== 'hypit-runninghub.fetch@1'
     || !Number.isInteger(config.requestTimeoutMs) || config.requestTimeoutMs < 1 || config.requestTimeoutMs > 300000
     || !Number.isInteger(config.maxResponseBytes) || config.maxResponseBytes < 1024 || config.maxResponseBytes > 16777216) fail('INVALID_FETCH_CONFIG');
+  const { id: workflowId } = parseRunningHubTarget(config.workflowId, 'workflow');
   serviceBase(config.baseUrl, 'native-workflow');
   const ref = config.apiKey;
   if (!ref || Array.isArray(ref) || Object.keys(ref).length !== 2 || Object.keys(ref).some(k => !['store', 'key'].includes(k))
     || ['store', 'key'].some(k => typeof ref[k] !== 'string' || !ref[k] || ref[k].length > 200)) fail('INVALID_CREDENTIAL_REFERENCE');
-  return structuredClone(config);
+  return { ...structuredClone(config), workflowId };
 }
 
 // Resolver belongs to the consumer. No credential stores or environment are

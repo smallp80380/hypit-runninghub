@@ -1,0 +1,127 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "format": {
+      "const": "hypit-runninghub.ai-app-request@1"
+    },
+    "instanceType": {
+      "enum": [
+        "default",
+        "plus",
+        "ultra"
+      ]
+    },
+    "nodeInfoList": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "nodeId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fieldName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fieldValue": {}
+        },
+        "required": [
+          "nodeId",
+          "fieldName",
+          "fieldValue"
+        ]
+      }
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "blob": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "kind": {
+                "const": "blob"
+              },
+              "resource": {
+                "type": "string",
+                "pattern": "^res_.+$"
+              },
+              "size": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "mediaType": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "kind",
+              "resource",
+              "size",
+              "mediaType"
+            ]
+          }
+        },
+        "required": [
+          "key",
+          "blob"
+        ]
+      }
+    },
+    "bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "fileKey": {
+            "type": "string",
+            "minLength": 1
+          },
+          "nodeId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fieldName": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "fileKey",
+          "nodeId",
+          "fieldName"
+        ]
+      }
+    },
+    "review": {
+      "type": "string",
+      "minLength": 1
+    },
+    "webappId": {
+      "type": "string",
+      "pattern": "^[0-9]{1,40}$"
+    }
+  },
+  "required": [
+    "format",
+    "webappId",
+    "nodeInfoList",
+    "files",
+    "bindings"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:hypit-runninghub:ai-app-request:1",
+  "title": "Per-operation AI App request; arbitrary JSON values and explicit file bindings"
+}

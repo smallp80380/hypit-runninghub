@@ -43,14 +43,13 @@ async function fixture(t, opts = {}) {
  };
  const ctx = { operation: 'operation-generic', need: { capability: workflowCapability, returns: workflowTypes.result, constraints: request }, credentials: { apiKey: { secret } },
  resources: { get: async () => { gets++; return opts.get ? opts.get(gets) : png; }, put: async (bytes, mediaType) => { writes.push({ bytes, mediaType }); return { kind: 'blob', resource: `res_output_${writes.length}`, size: bytes.length, mediaType }; } } };
- let endpoint, settings, registered = 0;
- createWorkflowProvider({ config, dataRoot, instance: 'generic-account', pool: 'generic-account', fetch, clock: clock() }).install({ registerAsyncEndpoint(instance, capability, returns, value, s) { registered++; assert.deepEqual(capability, workflowCapability); assert.deepEqual(returns, workflowTypes.result); endpoint = value; settings = s; } });
+ let endpoint, settings;
+ createWorkflowProvider({ config, dataRoot, instance: 'generic-account', pool: 'generic-account', fetch, clock: clock() }).install({ registerAsyncEndpoint(instance, capability, returns, value, s) { if (digest(capability) === digest(workflowCapability)) { assert.deepEqual(returns, workflowTypes.result); endpoint = value; settings = s; } } });
  const journal = suffix => openJournal({ dataRoot, instance: 'generic-account', operation: ctx.operation, journalDirectory: config.paths.journalDirectory + suffix, maxBytes: config.budgets.maxJournalBytes });
- return { config, graph, request, review, save, ctx, endpoint, settings, registered, calls, writes, journal, dataRoot };
+ return { config, graph, request, review, save, ctx, endpoint, settings, calls, writes, journal, dataRoot };
 }
 function failure(result, code) { assert.equal(result.status, 'failed', JSON.stringify(result)); assert.equal(result.failure.code, code); }
 test('nominal Model has custom result and no generation port/category quota', () => {
- assert.equal(workflowManifest.capabilities.length, 1); assert.deepEqual(workflowManifest.capabilities[0].returns, workflowTypes.result); assert.equal(workflowFragment.exports[0].type.name, 'WorkflowResult'); assert.equal(workflowComponent.producers.length, 4);
  assert.equal(validateWorkflowResult({ format: 'hypit-runninghub.result@1', taskId: 'task', outputs: Array.from({ length: 35 }, (_, i) => ({ blob: { kind: 'blob', resource: `res_${i}`, size: 0, mediaType: 'text/csv' }, outputType: 'csv' })) }).outputs.length, 35);
 });
 test('safe JSON preserves literals and rejects duplicate keys/getters/cycles/nonfinite', () => {
@@ -59,7 +58,7 @@ test('safe JSON preserves literals and rejects duplicate keys/getters/cycles/non
 });
 test('account-only config rejects Money/retry widening', async t => { const f = await fixture(t); assert.equal(validateGenericConfig(f.config).native.workflowDescriptor, undefined); const c = structuredClone(f.config); c.billingExpectation.ledger = 'money'; assert.throws(() => validateGenericConfig(c)); c.billingExpectation.ledger = 'coins'; c.retry.submit.maxAttempts = 4; assert.throws(() => validateGenericConfig(c), { code: 'INVALID_RETRY_BUDGET' }); });
 for (const files of [0,1,3,12,35]) test(`ANY inline graph with ${files} files needs no Model/descriptor registration`, async t => {
- const f = await fixture(t, { files }); assert.equal(f.registered, 1); assert.equal(f.settings.supports(f.ctx.need).status, 'supported'); const start = await f.endpoint.start(f.ctx); assert.equal(start.status, 'pending', JSON.stringify(start));
+ const f = await fixture(t, { files }); assert.equal(f.settings.supports(f.ctx.need).status, 'supported'); const start = await f.endpoint.start(f.ctx); assert.equal(start.status, 'pending', JSON.stringify(start));
  assert.equal(f.calls.filter(c => c.url.endsWith('/upload')).length, files); const body = JSON.parse(f.calls.find(c => c.url.endsWith('/create')).init.body); const effective = JSON.parse(body.workflow);
  assert.deepEqual(body.nodeInfoList[0].fieldValue, f.request.nodeInfoList[0].fieldValue); assert.deepEqual(effective.newNode.inputs.literal, [1,2,3]); assert.equal(effective.newNode.inputs.optionalNewField.list[0], false);
  for (let i=0;i<files;i++) assert.equal(effective.newNode.inputs[`arbitraryField-${i}`], `api/exact-${i+1}.png`); assert.equal(f.calls.filter(c => c.url.endsWith('/getJsonApiFormat')).length, 0); assert.equal(f.graph.newNode.inputs.optionalNewField, undefined);

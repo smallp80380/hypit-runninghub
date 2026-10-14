@@ -11,6 +11,7 @@ import { openJournal } from '../core/journal.js';
 import { runJournaledAction } from '../core/submission-machine.js';
 import { createJsonTransport, classifyResponse } from '../core/transport.js';
 import { updatePollBudget } from '../core/poll-budget.js';
+import './action-crash.test.js';
 
 const config = JSON.parse(readFileSync(new URL('../examples/native-config.json', import.meta.url)));
 const fingerprint = 'a'.repeat(64);

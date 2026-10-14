@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:hypit-runninghub:ai-app-document:1",
+  "title": "Sanitized AI App interface snapshot; literal metadata is not a universal parameter schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "format": { "const": "hypit-runninghub.ai-app-document@1" },
+    "baseUrl": { "enum": ["https://www.runninghub.ai", "https://www.runninghub.cn"] },
+    "webappId": { "type": "string", "pattern": "^[0-9]{1,40}$" },
+    "webappName": { "type": "string" },
+    "accessEncrypted": { "type": "boolean" },
+    "nodeInfoList": {
+      "type": "array",
+      "description": "Ordered literal interface metadata; duplicate nodeId/fieldName targets are rejected by runtime. fieldData is not interpreted as enum, range or cardinality constraints.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "nodeId": { "type": "string", "minLength": 1, "pattern": "^(?!.*[\\u0000-\\u001f])(?=.*\\S).+$", "not": { "enum": ["__proto__", "constructor", "prototype"] } },
+          "nodeName": { "type": "string" },
+          "fieldName": { "type": "string", "minLength": 1, "pattern": "^(?!.*[\\u0000-\\u001f])(?=.*\\S).+$", "not": { "enum": ["__proto__", "constructor", "prototype"] } },
+          "fieldValue": { "type": "string" },
+          "fieldData": { "type": "string" },
+          "fieldType": { "type": "string" },
+          "description": { "type": "string" },
+          "descriptionEn": { "type": "string" }
+        },
+        "required": ["nodeId", "nodeName", "fieldName", "fieldValue", "fieldData", "fieldType", "description", "descriptionEn"]
+      }
+    },
+    "appDigest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "Runtime verifies the canonical digest of baseUrl, webappId, accessEncrypted and ordered nodeInfoList; display name is excluded."
+    }
+  },
+  "required": ["format", "baseUrl", "webappId", "webappName", "accessEncrypted", "nodeInfoList", "appDigest"]
+}

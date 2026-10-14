@@ -35,6 +35,14 @@
     {
       "path": "sources/native/generic-transport-contract.txt",
       "sha256": "c358f51af3ddc7f2a1e0bd58c1000589f5e6c700603a57d1e73f1b52e64d94e7"
+    },
+    {
+      "path": "sources/native/ai-app-contract.txt",
+      "sha256": "6b148e62432fcbb9d7bbaae969fc164a29017ea1917f2f0b856e2cf9b4cdbb3e"
+    },
+    {
+      "path": "sources/native/membership-services.txt",
+      "sha256": "325ac05e5e64869bb4b0fc4a54513129df5a5d70362d78362730f74851cf0d1a"
     }
   ],
   "sources": [
@@ -316,6 +324,32 @@
       "publicImport": "@hypit/hypit/endpoint-kit",
       "sha256": "5273105cd565029934811cfa434b1024c988cb04ef4c981d0d250dbb26392a31",
       "redistributed": false
+    },
+    {
+      "id": "rh-native-ai-app-contract",
+      "kind": "official-page-derived-facts",
+      "upstreamUrls": [
+        "https://www.runninghub.ai/runninghub-api-doc-en/api-425761096",
+        "https://www.runninghub.ai/runninghub-api-doc-en/api-425761097",
+        "https://www.runninghub.ai/runninghub-api-doc-en/api-425767807"
+      ],
+      "retrievedAt": "2026-10-13",
+      "representation": "selected factual contract from official public Markdown documentation; provider policy labelled separately; not raw snapshot or API response",
+      "localPath": "sources/native/ai-app-contract.txt",
+      "sha256": "6b148e62432fcbb9d7bbaae969fc164a29017ea1917f2f0b856e2cf9b4cdbb3e",
+      "modified": true,
+      "redistributed": true
+    },
+    {
+      "id": "rh-native-membership-services",
+      "kind": "official-page-derived-facts",
+      "upstreamUrl": "https://www.runninghub.ai/runninghub-api-doc-en/doc-8287463",
+      "retrievedAt": "2026-10-13",
+      "representation": "literal API family/key matrix and selected facts from official public Markdown documentation; provider manual-review policy labelled separately",
+      "localPath": "sources/native/membership-services.txt",
+      "sha256": "325ac05e5e64869bb4b0fc4a54513129df5a5d70362d78362730f74851cf0d1a",
+      "modified": true,
+      "redistributed": true
     }
   ],
   "nativeV003": {

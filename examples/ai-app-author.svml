@@ -1,0 +1,7 @@
+<?svml using="@hypit/markup@1"?>
+<svml>
+  <import as="workflow" from="@local/provider-runninghub@1"/>
+  <workflow:AiApp id="app">
+    <Request>{&quot;format&quot;:&quot;hypit-runninghub.ai-app-request@1&quot;,&quot;webappId&quot;:&quot;1937084629516193794&quot;,&quot;nodeInfoList&quot;:[],&quot;files&quot;:[],&quot;bindings&quot;:[]}</Request>
+  </workflow:AiApp>
+</svml>

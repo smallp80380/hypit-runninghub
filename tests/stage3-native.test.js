@@ -120,12 +120,11 @@ test('durable submit budget applies only to create, never repeats upload prepara
   assert.equal(f.calls.filter(c => c.url.endsWith('/getJsonApiFormat')).length, 4);
 });
 test('parallel starters share preparation lock, one submit; unknown acknowledgement never starts a new series', async t => {
-  const f = await fixture(t); const results = await Promise.allSettled([f.endpoint.start(f.ctx), f.endpoint.start(f.ctx)]);
-  assert.equal(results.filter(r => r.status === 'fulfilled').length, 1);
+  const f = await fixture(t); await Promise.allSettled([f.endpoint.start(f.ctx), f.endpoint.start(f.ctx)]);
   assert.equal(f.calls.filter(c => c.url.endsWith('/create')).length, 1);
   const j = await openJournal({ dataRoot: f.dataRoot, instance: f.instance, operation: 'crashed', journalDirectory: f.config.paths.journalDirectory });
   await j.write({ version: 1, action: 'submit', fingerprint: digest({ descriptor, ports: constraints.ports, apiKeyReference: config.apiKey, baseUrl: config.baseUrl,
-    credentialSha256: createHash('sha256').update('offline-inert-secret').digest('hex') }), state: 'in-flight', attempts: [{ attempt: 1 }], taskIds: [] });
+    credentialSha256: createHash('sha256').update('offline-inert-secret').digest('hex') }), state: 'in-flight', attempts: [{ attempt: 1, outcome: 'in-flight' }], taskIds: [] });
   const count = f.calls.length; await assert.rejects(f.endpoint.start({ ...f.ctx, operation: 'crashed' }), { code: 'OUTCOME_UNKNOWN_NO_NEW_SERIES' });
   assert.equal(f.calls.length, count);
 });
@@ -232,4 +231,23 @@ test('collect rejects empty/false media bytes; bounded private observations reta
     journalDirectory: f.config.paths.journalDirectory + '/observations' })).read();
   assert.equal(record.usage.consumeCoins, '255'); assert.ok(!JSON.stringify(record).includes('private'));
   assert.ok(!JSON.stringify(record).includes('untrusted'));
+});
+
+test('native ACK resumes read-only while the original checkpoint still owns both locks', { timeout: 10000 }, async t => {
+  let reachedCheckpoint, releaseCheckpoint;
+  const entered = new Promise(resolve => { reachedCheckpoint = resolve; });
+  const held = new Promise(resolve => { releaseCheckpoint = resolve; });
+  const f = await fixture(t, { ctx: { checkpoint: async () => { reachedCheckpoint(); await held; } } });
+  const original = f.endpoint.start(f.ctx);
+  try {
+    await entered;
+    const before = f.calls.length, checkpoints = [];
+    const resumed = await f.endpoint.start({ ...f.ctx, checkpoint: async value => { checkpoints.push(value); } });
+    assert.equal(resumed.status, 'pending');
+    assert.deepEqual(resumed.receipt, { id: 'offline-task-1' });
+    assert.deepEqual(checkpoints, [{ handle: resumed.handle, receipt: resumed.receipt }]);
+    assert.equal(f.calls.length, before);
+  } finally {
+    releaseCheckpoint(); await original;
+  }
 });

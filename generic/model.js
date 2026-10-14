@@ -3,13 +3,9 @@ import { artifactTypes } from '@hypit/hypit/artifact';
 import { validateRequest, jsonValue, exact } from './request.js';
 import { fail } from '../core/errors.js';
 
-export const workflowModule = Object.freeze({ name: '@local/provider-runninghub', version: '1' });
-export const workflowTypes = Object.freeze({ request: { module: workflowModule, name: 'WorkflowRequest' },
-  draft: { module: workflowModule, name: 'WorkflowDraft' }, result: { module: workflowModule, name: 'WorkflowResult' },
-  fileKey: { module: workflowModule, name: 'WorkflowFileKey' }, outputIndex: { module: workflowModule, name: 'WorkflowOutputIndex' } });
-export const workflowCapability = Object.freeze({ module: workflowModule, name: 'run-workflow' });
-export const workflowProducers = Object.freeze({ run: { module: workflowModule, name: 'run-workflow' },
-  bind: { module: workflowModule, name: 'bind-workflow-file' }, finalize: { module: workflowModule, name: 'finalize-workflow' }, output: { module: workflowModule, name: 'select-workflow-output' } });
+import { workflowModule, workflowTypes, workflowCapability, workflowProducers } from './references.js';
+import { aiAppDeclarations } from '../ai-app/model.js';
+export { workflowModule, workflowTypes, workflowCapability, workflowProducers } from './references.js';
 const inline = record => {
   if (record?.value.kind !== 'inline') fail('WORKFLOW_INLINE_REQUIRED');
   return record.value.value;
@@ -29,8 +25,8 @@ export function validateWorkflowResult(value) {
 export const workflowManifest = {
   format: 'hypit.module@1', name: workflowModule.name, version: workflowModule.version,
   dependencies: [{ module: artifactTypes.blob.module }],
-  types: Object.values(workflowTypes).map(type => ({ name: type.name })),
-  capabilities: [{ name: workflowCapability.name, returns: workflowTypes.result }],
+  types: [...Object.values(workflowTypes).map(type => ({ name: type.name })), ...aiAppDeclarations.types],
+  capabilities: [{ name: workflowCapability.name, returns: workflowTypes.result }, ...aiAppDeclarations.capabilities],
   producers: [
     { name: workflowProducers.run.name, inputs: [{ name: 'request', type: workflowTypes.request }], outputs: [],
       needs: [{ name: 'workflow', capability: workflowCapability, returns: workflowTypes.result }] },
@@ -38,6 +34,7 @@ export const workflowManifest = {
       outputs: [{ name: 'draft', type: workflowTypes.draft }], needs: [] },
     { name: workflowProducers.finalize.name, inputs: [{ name: 'draft', type: workflowTypes.draft }], outputs: [{ name: 'request', type: workflowTypes.request }], needs: [] },
     { name: workflowProducers.output.name, inputs: [{ name: 'result', type: workflowTypes.result }, { name: 'index', type: workflowTypes.outputIndex }], outputs: [{ name: 'file', type: artifactTypes.blob }], needs: [] },
+    ...aiAppDeclarations.producers,
   ],
 };
 export const workflowComponent = {

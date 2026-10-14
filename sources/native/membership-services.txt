@@ -1,0 +1,17 @@
+RunningHub API family / key availability
+Retrieved: 2026-10-13
+Source: https://www.runninghub.ai/runninghub-api-doc-en/doc-8287463
+Provenance: literal API Type / Available API Key matrix and selected facts from the official Instructions for Use public Markdown representation; provider policy is labelled separately. Not an API response or full page snapshot.
+
+Official matrix (API Type | Available API Key):
+Model API | Enterprise-Shared
+LLM API | Enterprise-Shared
+AI App API | Consumer-Member, Enterprise-Shared, Enterprise-Dedicated
+Workflow API | Consumer-Member, Enterprise-Shared, Enterprise-Dedicated
+
+Official text: "Model API and LLM API only support Enterprise-Shared API Keys. Enterprise-Dedicated API Key can be created only after purchasing a dedicated machine."
+Consumer-Member is described as Membership API entitlement for personal accounts. Model API, AI App API and Workflow API usually use Submit task -> Get taskId -> Query task status -> Get result. LLM API uses compatible protocol endpoints. This matrix is the documented API family boundary, not an enumeration of every application in the website catalogue.
+
+Provider policy, not a server guarantee: RHCoins execution is confined to reviewed Workflow API and AI App API operations using a Membership key. Direct Model API and LLM API calls are excluded; no Enterprise-Shared or monetary fallback is admitted. The separately pinned membership-billing.txt source note and its digest remain unchanged. A NORMAL account status or positive RH coin balance alone does not prove Membership entitlement.
+
+AI App metadata exposes an interface, not the full hidden implementation or a version identifier. Manual review by the project owner must approve the actual Membership key, concrete application and selected inputs as having no external-money charges. Interface digests bind that fetched interface only; they cannot certify the hidden graph or detect every implementation change. If the owner cannot establish the no-external-money condition, refuse before upload or submission. Metadata reading is not such approval. Workflow and App approvals are separate; neither is a blanket approval of other services.

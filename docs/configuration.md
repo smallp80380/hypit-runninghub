@@ -1,6 +1,8 @@
 # Endpoint configuration v0.0.4
 
-Generic config@2 is account-only: see [generic workflow](generic-workflow.md), [schema](../schemas/endpoint-config-v2.schema.json), [reuse](REUSE_RU.md). Generic review is per-operation, not liveBillingEvidence or a descriptor.
+Generic config@2 is account-only and serves both Workflow/App capabilities: see [contracts and CLI](generic-workflow.md), [schema](../schemas/endpoint-config-v2.schema.json), [workflow reuse](REUSE_RU.md). Reviews are per-operation, not liveBillingEvidence or descriptors.
+Optional `accessPassword` is an exact `{store,key}` CredentialRef (each string 1–200 characters), resolved via a separately declared credential slot. Its reference/hash is review- and journal-bound; never put literal passwords into requests or authored JSON. One Endpoint has one password reference. Legacy config@1 does not accept this option.
+Both request formats allow optional `instanceType: default|plus|ultra`; omission is preserved, and a failure never chooses another tier. The App profile example binds both capabilities to one disabled Endpoint.
 
 ## Legacy config@1 / v0.0.3
 

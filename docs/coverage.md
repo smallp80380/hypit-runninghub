@@ -1,6 +1,8 @@
 # Coverage v0.0.4
 
-Primary generic native operation accepts any API-valid ID/full JSON per request, arbitrary literals/files and heterogeneous ResourceStore outputs, without workflow registration. Normal installed mock proof covers 0/1/3/12/35 files, different workflows and 25 outputs. See [generic contract](generic-workflow.md) and [reuse](REUSE_RU.md). Backend availability, UI conversion and live price are unverified; Standard Money execution stays deferred.
+Primary account config@2 accepts arbitrary API-accessible Workflow IDs/full graphs and AI App IDs/fetched interfaces without per-ID Model registration. The result remains ordered heterogeneous ResourceStore files, including an empty collection. Workflow file-count/output coverage and App interface/review/password/retry boundaries are exercised with mocks only. See [Workflow/App contract and CLI](generic-workflow.md) and [workflow reuse](REUSE_RU.md).
+
+“All services” means the published RHCoins Workflow/AI App API families, not UI automation or Enterprise-Shared-only Standard Model/LLM execution. No runtime catalogue implies account availability or billing proof. Backend access to each App, hidden implementation changes, live price, generation quality and actual account charges remain unverified. Owner review must deny anything whose no-external-Money contract cannot be confirmed.
 
 ## Legacy v0.0.3 coverage
 

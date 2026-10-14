@@ -1,0 +1,15 @@
+RunningHub native AI App factual contract
+Retrieved: 2026-10-13
+Provenance: selected facts transcribed from the official public documentation's Markdown representations; not a raw page or API response snapshot.
+Sources:
+https://www.runninghub.ai/runninghub-api-doc-en/api-425761096
+https://www.runninghub.ai/runninghub-api-doc-en/api-425761097
+https://www.runninghub.ai/runninghub-api-doc-en/api-425767807
+
+Submit: POST /task/openapi/ai-app/run, Authorization: Bearer [API KEY]. Required JSON fields are apiKey, webappId, nodeInfoList. The schema describes webappId as integer/int64; the official request example supplies a decimal string. Preserve decimal IDs as strings, without JavaScript Number conversion. Optional instanceType has documented literals default, plus, ultra (24GB, 48GB, 84GB VRAM respectively). Optional accessPassword is the access password for encrypted AI applications. The documented submit API also supports webhookUrl; this provider does not use it. Returned data includes taskId and taskStatus. Generated results do not contain workflow information.
+
+Metadata: GET /api/webapp/apiCallDemo with required string query parameters apiKey and webappId and Authorization: Bearer [API KEY]. Successful envelope has code: 0 and data. data includes webappName (string), accessEncrypted (boolean), and nodeInfoList (array). Every nodeInfoList item has string fields nodeId, nodeName, fieldName, fieldValue, fieldData, fieldType, description, descriptionEn. Other documented fields are curl, statisticsInfo, covers, tags. curl is an invocation example which can include an API key; never execute, persist or display it. Persist only the selected interface fields. fieldData examples differ by field type; they do not establish a universal parameter schema, required/range/cardinality rules, or hidden application graph.
+
+Query: POST /openapi/v2/query with Bearer authorization and JSON taskId (string). The response has taskId, status, errorCode, errorMessage, clientId, promptTips, and nullable results. Each result has string url and outputType. Documented examples show SUCCESS with file URL results, RUNNING with results: null, and FAILED with results: null. No inline text or JSON output variant is documented here; URL-backed files remain file results.
+
+Provider boundary: metadata is an interface snapshot, not a complete workflow graph or a billing authorization. The interface digest covers baseUrl, webappId, accessEncrypted and the ordered literal nodeInfoList; display name and discarded metadata do not participate. Upload/submit requires separate owner approval of the Membership key, concrete application and selected inputs; reading metadata alone permits no generation.

@@ -83,11 +83,11 @@ export function editWorkflowDocument(document, operations, expectedDigest) {
   // never rewritten as links, even when a node is removed.
   return seal({ ...content, parentDigest: revisionDigest, graph, graphDigest: digest(graph) });
 }
-export function requestFromDocument(document, { workflowId, nodeInfoList = [], files = [], bindings = [], review, draft = false } = {}) {
+export function requestFromDocument(document, { workflowId, nodeInfoList = [], files = [], bindings = [], review, instanceType, draft = false } = {}) {
   const source = validateWorkflowDocument(document);
   if (!source.executionReady) fail('API_EXPORT_REQUIRED');
   return validateRequest({ format: 'hypit-runninghub.request@1', workflowId, workflowJson: JSON.stringify(source.graph), nodeInfoList, files, bindings,
-    ...(review === undefined ? {} : { review }) }, { draft });
+    ...(review === undefined ? {} : { review }), ...(instanceType === undefined ? {} : { instanceType }) }, { draft });
 }
 export async function requestFromFile(path, options) { return requestFromDocument(await importWorkflowFile(path), options); }
 export async function writeNewWorkflowFile(path, value) {

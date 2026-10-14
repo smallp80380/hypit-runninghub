@@ -39,6 +39,9 @@
         "sha256"
       ]
     },
+    "accessPasswordCredential": {
+      "$ref": "#/properties/credential"
+    },
     "baseUrl": {
       "enum": [
         "https://www.runninghub.ai",
