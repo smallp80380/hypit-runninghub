@@ -68,17 +68,24 @@ export function createJsonTransport({ baseUrl, family, fetch: fetcher, clock, ti
   const base = serviceBase(baseUrl, family);
   if (typeof fetcher !== 'function' || !clock || typeof clock.timeout !== 'function') fail('INJECTED_TRANSPORT_REQUIRED');
   return {
-    async request({ path, secret, body, form, extractTaskIds = () => [], observeResponse }) {
+    async request({ path, secret, body, form, method = 'POST', query, extractTaskIds = () => [], observeResponse }) {
       if (typeof path !== 'string' || !/^\/[A-Za-z0-9_/-]+$/.test(path) || path.includes('..')) fail('INVALID_API_PATH');
       if (typeof secret !== 'string' || !secret) fail('CREDENTIAL_MISSING');
+      if (method !== 'POST' && !(method === 'GET' && family === 'native-workflow' && path === '/api/webapp/apiCallDemo')) fail('INVALID_API_PATH');
+      if (method === 'GET') {
+        if (body !== undefined || form !== undefined || !query || Object.getPrototypeOf(query) !== Object.prototype
+          || Object.keys(query).length !== 2 || Object.keys(query).some(k => !['apiKey', 'webappId'].includes(k))
+          || query.apiKey !== secret || typeof query.webappId !== 'string' || !/^[0-9]{1,40}$/.test(query.webappId)) fail('INVALID_MULTIPART_BODY');
+      } else if (query !== undefined) fail('INVALID_MULTIPART_BODY');
       if (form !== undefined && (!(form instanceof FormData) || body !== undefined)) fail('INVALID_MULTIPART_BODY');
       const timer = clock.timeout(timeoutMs);
       try {
         let response;
         try {
-          response = await boundedBySignal(timer.signal, () => fetcher(base + path, { method: 'POST', redirect: 'error', signal: timer.signal,
-            headers: { authorization: `Bearer ${secret}`, ...(form === undefined ? { 'content-type': 'application/json' } : {}) },
-            body: form ?? JSON.stringify(body) }));
+          const url = base + path + (method === 'GET' ? `?${new URLSearchParams(query)}` : '');
+          response = await boundedBySignal(timer.signal, () => fetcher(url, { method, redirect: 'error', signal: timer.signal,
+            headers: { authorization: `Bearer ${secret}`, ...(method === 'POST' && form === undefined ? { 'content-type': 'application/json' } : {}) },
+            ...(method === 'POST' ? { body: form ?? JSON.stringify(body) } : {}) }));
         } catch (error) {
           throw networkError(error);
         }

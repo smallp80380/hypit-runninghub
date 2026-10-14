@@ -1,6 +1,10 @@
 # Generic v0.0.4 contracts
 
-See [generic workflow](generic-workflow.md), request/result/review schemas and account config@2. Generic nominal Module is @local/provider-runninghub@1 and supplied by one Provider install; it owns custom request/result Types and fixed run/bind/finalize/select Producers, not a GenerationPortTable. Pure preparation subpaths require no SDK.
+See [Workflow/App contracts and CLI](generic-workflow.md), exact request/result/review schemas and account config@2. One Provider install supplies Module `@local/provider-runninghub@1`, `run-workflow` and `run-ai-app`, with separate request/draft Types and common WorkflowResult/file projection. Pure preparation subpaths require no SDK.
+
+App metadata uses documented `GET /api/webapp/apiCallDemo` with exact query apiKey/webappId and Bearer auth; submit is `POST /task/openapi/ai-app/run` with string webappId/nodeInfoList and optional instanceType/accessPassword. Shared uploads return filenames; query returns URL/outputType files, not invented inline result variants. Metadata curl is discarded; credential query URLs are never public.
+
+App review pins fetched interface `appDigest`, not a complete hidden graph. A Workflow review cannot authorize an App. Both validators pin actual key/password hash, chosen values/tier, ordered file bytes, origin, Membership source and time. Manual review is owner trust, not a server billing/hidden-version guarantee. Standard Model and LLM APIs are excluded from RHCoins execution by the official key matrix.
 
 ## Legacy contracts
 

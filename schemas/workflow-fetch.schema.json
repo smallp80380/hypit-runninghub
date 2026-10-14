@@ -16,7 +16,7 @@
     },
     "workflowId": {
       "type": "string",
-      "pattern": "^[0-9]{1,40}$"
+      "pattern": "^(?:[0-9]{1,40}|https://www\\.runninghub\\.(?:ai|cn)/post/[0-9]{1,40}/?(?:[?#].*)?)$"
     },
     "apiKey": {
       "type": "object",

@@ -1,6 +1,6 @@
 # Инструкции разработчику пакета
 
-Рабочая граница: этот пакет и /tmp; no credentials/env/live/paid calls. v0.0.4 generic operation, own-JSON import/edit и ordinary installed mock proof реализованы; независимые gate reports и final archive audit хранятся отдельно. Старые stage notes ниже — исторические, не новое spending permission.
+Рабочая граница: этот пакет и /tmp; no real credentials/env/live/paid calls. v0.0.4 account Endpoint обслуживает Workflow и AI App native routes с отдельными nominal request/review и общим durable lifecycle/result. Старые stage notes ниже — исторические, не новое spending permission.
 
 ## Обязательная рекомендация
 
@@ -31,6 +31,8 @@ Read local pinned llms.txt и rh-api-contract.md полностью; затем 
 - Named reference mapping должен сохранять все roles, порядок/индекс и metadata, когда exact Model их требует. Unsupported metadata отклонять до upload. Нельзя заменять unknown duration числом из planning.
 - Не отдавать ключ внешнему download host, не сохранять signed URLs в public receipt/progress. Private durable evidence permissions: directories 0700, files 0600; public sanitized response отдельно. `raw_response` сохранение не означает permission печатать его.
 - На будущих stages разрешены meaningful offline mocks и isolated consumer checks. Live smoke, uploads, paid tasks и publication требуют отдельного scope.
+- AI Apps: metadata — интерфейс, не полный граф. appDigest не обнаруживает hidden implementation change; нужен manual owner review ключа/App/params/no-external-Money. Workflow review не авторизует App. Model/LLM Enterprise-Shared routes не включать в RHCoins execution.
+- Проверка расширения: `node --import ./tests/sdk-register.js tests/ai-app.test.js` плюс прежние suites. Паковать в новый `/tmp` directory через `tests/pack-release.mjs`; запускать `tests/installed-generic-proof.mjs` и `tests/installed-hypit-proof.mjs` на новом tarball. Не перезаписывать sealed artifacts; не bump/publish.
 - Не менять root packages/node_modules/workflows/.hypit/renders/profiles/assets/scripts/.env или официальный Hypit skill. Проверять diff только этого каталога; не staging/commit чужие изменения.
 
 ## Обновление источников

@@ -1,0 +1,11 @@
+{
+  "format": "hypit-runninghub.ai-app-fetch@1",
+  "baseUrl": "https://www.runninghub.ai",
+  "webappId": "1937084629516193794",
+  "apiKey": {
+    "store": "env",
+    "key": "RUNNINGHUB_API_KEY"
+  },
+  "requestTimeoutMs": 60000,
+  "maxResponseBytes": 1048576
+}

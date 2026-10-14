@@ -3,7 +3,7 @@
   "version": "0.0.4",
   "private": true,
   "type": "module",
-  "description": "Hypit generic native RunningHub workflow account Provider with per-operation reviewed Membership Coins execution",
+  "description": "Hypit generic native RunningHub workflow and AI App account Provider with per-operation reviewed Membership Coins execution",
   "engines": {
     "node": ">=22"
   },
@@ -16,7 +16,8 @@
     "test:workflow:installed": "node tests/workflow-installed.test.js",
     "test:workflow:v2": "node --import ./tests/sdk-register.js tests/workflow-provider-v2.test.js",
     "test:generic": "node --import ./tests/sdk-register.js tests/generic-workflow.test.js",
-    "test:generic:author": "node --import ./tests/sdk-register.js tests/generic-author.test.js"
+    "test:generic:author": "node --import ./tests/sdk-register.js tests/generic-author.test.js",
+    "test:ai-app": "node --import ./tests/sdk-register.js tests/ai-app.test.js"
   },
   "devDependencies": {
     "@hypit/hypit": "0.2.16"
@@ -34,7 +35,11 @@
     "./generic": "./generic/index.js",
     "./workflow-document": "./generic/document.js",
     "./author-source": "./generic/author-source.js",
-    "./review-candidate": "./generic/review-candidate.js"
+    "./review-candidate": "./generic/review-candidate.js",
+    "./ai-app": "./ai-app/index.js",
+    "./ai-app-document": "./ai-app/document.js",
+    "./ai-app-author-source": "./ai-app/author-source.js",
+    "./ai-app-review-candidate": "./ai-app/review-candidate.js"
   },
   "hypit": {
     "activation": "./activation.js"
@@ -44,6 +49,7 @@
     "activation.js",
     "core/",
     "generic/",
+    "ai-app/",
     "native/",
     "registry/",
     "schemas/",
@@ -70,7 +76,9 @@
     "sources/developer-kit/llms.txt",
     "sources/developer-kit/rh-api-contract.md",
     "sources/native/inline-workflow-contract.txt",
-    "sources/native/generic-transport-contract.txt"
+    "sources/native/generic-transport-contract.txt",
+    "sources/native/ai-app-contract.txt",
+    "sources/native/membership-services.txt"
   ],
   "peerDependencies": {
     "@hypit/hypit": "0.2.16"

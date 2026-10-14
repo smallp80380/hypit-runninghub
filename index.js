@@ -5,3 +5,4 @@ export { loadReviewedMemberAuthority, validateMemberBinding, credentialSha256, M
 export { loadPinnedRegistry, REGISTRY_SHA256, REVIEWED_SCHEMA_ENDPOINTS } from './registry/catalog.js';
 export { createRegistryDescriptor, validateRegistryDescriptor, planRegistryRequest } from './registry/descriptor.js';
 export * from './generic/index.js';
+export * from './ai-app/index.js';

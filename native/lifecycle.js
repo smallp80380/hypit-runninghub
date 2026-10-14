@@ -2,7 +2,7 @@
 // admission hooks. Development tests always use injected offline transport.
 import { fail, safeError } from '../core/errors.js';
 import { openJournal } from '../core/journal.js';
-import { runJournaledAction, validTaskId } from '../core/submission-machine.js';
+import { runJournaledAction, validTaskId, acknowledgedTaskId, acquirePreparation } from '../core/submission-machine.js';
 import { createJsonTransport, boundedBySignal, boundedBytes } from '../core/transport.js';
 import { updatePollBudget } from '../core/poll-budget.js';
 import { digest, mapNodes, verifyRemoteGraph, selectNativeResults } from './descriptor.js';
@@ -122,13 +122,12 @@ export function createNativeLifecycle({ config, descriptor, graph, dataRoot, ins
       sdk.verifyRequestAgainstPorts(descriptor.portTable, ctx.need.constraints);
       if (digest(ctx.need.capability) !== digest(descriptor.capability)) fail('CAPABILITY_MISMATCH');
       verifyTemplate();
-      const preparation = await journal(ctx.operation, '/preparation');
-      const release = await preparation.acquire();
+      const ports = ctx.need.constraints.ports;
+      const fingerprint = digest({ descriptor, ports, apiKeyReference: config.apiKey, baseUrl: config.baseUrl,
+        credentialSha256: createHash('sha256').update(secret(ctx)).digest('hex') });
+      const preparation = await journal(ctx.operation, '/preparation'), submit = await journal(ctx.operation);
+      const release = await acquirePreparation(preparation, submit, fingerprint);
       try {
-        const ports = ctx.need.constraints.ports;
-        const fingerprint = digest({ descriptor, ports, apiKeyReference: config.apiKey, baseUrl: config.baseUrl,
-          credentialSha256: createHash('sha256').update(secret(ctx)).digest('hex') });
-        const submit = await journal(ctx.operation);
         const existing = await submit.read();
         // Resume a durable acknowledgement before any upload or new submit.
         // Network preparation is outside the submit retry budget. Upload uses
@@ -136,6 +135,7 @@ export function createNativeLifecycle({ config, descriptor, graph, dataRoot, ins
         let preparedBody;
         const savedPreparation = await preparation.read();
         if (savedPreparation && (savedPreparation.version !== 1 || savedPreparation.fingerprint !== fingerprint)) fail('JOURNAL_IDENTITY_MISMATCH');
+        if (release === undefined && (savedPreparation?.state !== 'ready' || acknowledgedTaskId(existing, fingerprint) === undefined)) fail('JOURNAL_IDENTITY_MISMATCH');
         if (v2 && savedPreparation?.state === 'ready') {
           const body = savedPreparation.preparedBody;
           if (!body || savedPreparation.preparedBodyDigest !== digest(body) || savedPreparation.sourceMode !== descriptor.sourceMode
@@ -183,7 +183,7 @@ export function createNativeLifecycle({ config, descriptor, graph, dataRoot, ins
             ...(v2 ? { preparedBodyDigest: digest(preparedBody), sourceMode: descriptor.sourceMode, templateGraphDigest: descriptor.graphDigest.value,
               ...(inline ? { effectiveGraphDigest } : {}) } : {}) });
         } else preparedBody = savedPreparation?.preparedBody;
-        const result = await runJournaledAction({ journal: submit, fingerprint, policy: config.retry.submit, clock,
+        const result = await runJournaledAction({ journal: submit, fingerprint, policy: config.retry.submit, clock, resumeOnly: release === undefined,
           beforeAttempt: async () => {
             const admission = await beforeSubmit?.(ctx);
             await verifyExecutionSource(ctx);
@@ -199,7 +199,7 @@ export function createNativeLifecycle({ config, descriptor, graph, dataRoot, ins
           checkpoint: async value => { await ctx.checkpoint?.({ handle: handle(value.handle.taskId), receipt: receipt(value.handle.taskId) }); },
         });
         return { status: 'pending', handle: handle(result.taskId), receipt: receipt(result.taskId), wakeAt: clock.now() + config.polling.intervalMs };
-      } finally { await release(); }
+      } finally { await release?.(); }
     },
     async poll(ctx) {
       const taskId = validateHandle(ctx); await validateOwnedTask(ctx, taskId);

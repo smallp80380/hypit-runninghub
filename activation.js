@@ -5,6 +5,7 @@ import { createNativeProvider } from './native/provider.js';
 import { loadReviewedMemberAuthority } from './native/member-binding.js';
 import { createWorkflowProvider } from './generic/provider.js';
 import { workflowAuthorContribution } from './generic/author.js';
+import { aiAppAuthorContribution } from './ai-app/author.js';
 
 const clock = {
   now: () => Date.now(), sleep: ms => new Promise(resolve => setTimeout(resolve, ms)),
@@ -25,4 +26,6 @@ const adapter = createRuntimeEndpointAdapterFacet({ use: '@local/provider-runnin
   return { endpoint: createNativeProvider({ config, descriptor, graph, dataRoot: context.dataRoot,
     instance: context.instance, pool: context.pool ?? context.instance, fetch: globalThis.fetch, clock, memberAuthority }) };
 } });
-export default { ...workflowAuthorContribution, hostFacets: [adapter, ...workflowAuthorContribution.hostFacets] };
+export default { ...workflowAuthorContribution,
+  components: [...workflowAuthorContribution.components, ...aiAppAuthorContribution.components],
+  hostFacets: [adapter, ...workflowAuthorContribution.hostFacets, ...aiAppAuthorContribution.hostFacets] };

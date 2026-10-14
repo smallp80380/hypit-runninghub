@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:hypit-runninghub:ai-app-fetch:1",
+  "title": "Bounded read-only AI App metadata fetch; explicit credential resolver supplied by caller",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "format": {
+      "const": "hypit-runninghub.ai-app-fetch@1"
+    },
+    "baseUrl": {
+      "enum": [
+        "https://www.runninghub.ai",
+        "https://www.runninghub.cn"
+      ]
+    },
+    "apiKey": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "store": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      },
+      "required": [
+        "store",
+        "key"
+      ]
+    },
+    "requestTimeoutMs": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 600000
+    },
+    "maxResponseBytes": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 16777216
+    },
+    "webappId": {
+      "type": "string",
+      "pattern": "^(?:[0-9]{1,40}|https://www\\.runninghub\\.(?:ai|cn)/ai-detail/[0-9]{1,40}/?(?:[?#].*)?)$"
+    }
+  },
+  "required": [
+    "format",
+    "baseUrl",
+    "webappId",
+    "apiKey",
+    "requestTimeoutMs",
+    "maxResponseBytes"
+  ]
+}

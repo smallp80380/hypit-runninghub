@@ -2,6 +2,8 @@
 
 Нужно: Node 22+, установленный Hypit 0.2.16, архив Provider и ваш API-format workflow JSON. Один Provider подходит для разных запросов; число файлов и обязательные prompt/image/audio ports не задаются пакетом.
 
+Для AI Apps по ID или `/ai-detail/<id>` используйте [App CLI путь](generic-workflow.md#ai-app-interface-and-authoring) и disabled [двойной Profile](../examples/ai-app-profile.json). Это отдельный request/review, не workflowId alias; этот workflow walkthrough остаётся прежним.
+
 ## 1. Установить и импортировать
 
 ```sh
@@ -10,7 +12,7 @@ npx --no-install rh-workflow import-native --input ./my-api.json --output ./work
 npx --no-install rh-workflow request-from-document --input ./workflow.document.json --workflow-id <EXPLICIT_SERVICE_WORKFLOW_ID> --values ./values.json --output ./request.json
 ```
 
-`values.json` содержит только nodeInfoList/files/bindings/review. CLI готовит draft: files могут быть пустыми до добавления настоящих Author File edges; Provider принимает только finalized request с разрешёнными BlobRefs. Pure helper имеет явный option draft:true для такого режима. Пример с произвольным input field и одной картинкой:
+`values.json` содержит только nodeInfoList/files/bindings/review/instanceType. Optional instanceType — `default|plus|ultra`, absent не подставляется. CLI готовит draft: files могут быть пустыми до добавления настоящих Author File edges; Provider принимает только finalized request с разрешёнными BlobRefs. Pure helper имеет явный option draft:true для такого режима. Пример с произвольным input field и одной картинкой:
 
 ```json
 {

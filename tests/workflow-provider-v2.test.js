@@ -163,7 +163,10 @@ test('uncertain create outcome never starts a new series, rotated request/key ca
   assert.equal((await activated.endpoint.start(good.ctx)).failure.code, 'JOURNAL_IDENTITY_MISMATCH');
   const uncertain = await fixture(t, { create: () => new Response('', { status: 503 }) }); const enabled = await uncertain.activate();
   await enabled.endpoint.start(uncertain.ctx);
-  const journal = await uncertain.journal(), state = await journal.read(); state.state = 'in-flight'; state.attempts = state.attempts.slice(0, 1); await journal.write(state);
+  const journal = await uncertain.journal(), state = await journal.read();
+  state.state = 'in-flight';
+  state.attempts = [{ attempt: 1, startedAt: state.attempts[0].startedAt, outcome: 'in-flight' }];
+  delete state.nextAttemptAt; await journal.write(state);
   const count = uncertain.calls.length;
   assert.equal((await enabled.endpoint.start(uncertain.ctx)).failure.code, 'OUTCOME_UNKNOWN_NO_NEW_SERIES'); assert.equal(uncertain.calls.length, count);
 });
