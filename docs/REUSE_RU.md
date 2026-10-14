@@ -1,4 +1,4 @@
-# Перенос и собственный workflow — v0.1.0
+# Перенос и собственный workflow — Provider v0.1.2
 
 Нужно: Node 22+, установленный Hypit 0.2.16, архив Provider и ваш API-format workflow JSON. Один Provider подходит для разных запросов; число файлов и обязательные prompt/image/audio ports не задаются пакетом.
 
@@ -9,10 +9,10 @@
 Скачайте релизный архив и checksum asset, проверьте SHA-256 и установите:
 
 ```sh
-curl -fsSLO https://github.com/smallp80380/hypit-runninghub/releases/download/v0.1.0/local-provider-runninghub-0.1.0.tgz
-curl -fsSLO https://github.com/smallp80380/hypit-runninghub/releases/download/v0.1.0/local-provider-runninghub-0.1.0.tgz.sha256
-sha256sum -c local-provider-runninghub-0.1.0.tgz.sha256
-npm install --ignore-scripts --legacy-peer-deps --save-exact ./local-provider-runninghub-0.1.0.tgz
+curl -fsSLO https://github.com/smallp80380/hypit-runninghub/releases/download/v0.1.2/local-provider-runninghub-0.1.2.tgz
+curl -fsSLO https://github.com/smallp80380/hypit-runninghub/releases/download/v0.1.2/local-provider-runninghub-0.1.2.tgz.sha256
+sha256sum -c local-provider-runninghub-0.1.2.tgz.sha256
+npm install --ignore-scripts --legacy-peer-deps --save-exact ./local-provider-runninghub-0.1.2.tgz
 npx --no-install rh-workflow import-native --input ./my-api.json --output ./workflow.document.json
 npx --no-install rh-workflow request-from-document --input ./workflow.document.json --workflow-id <EXPLICIT_SERVICE_WORKFLOW_ID> --values ./values.json --output ./request.json
 ```

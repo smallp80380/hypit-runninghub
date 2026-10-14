@@ -1,4 +1,4 @@
-# Generic v0.0.4 contracts
+# Generic contracts — Provider v0.1.2
 
 See [Workflow/App contracts and CLI](generic-workflow.md), exact request/result/review schemas and account config@2. One Provider install supplies Module `@local/provider-runninghub@1`, `run-workflow` and `run-ai-app`, with separate request/draft Types and common WorkflowResult/file projection. Pure preparation subpaths require no SDK.
 
@@ -10,7 +10,7 @@ App review pins fetched interface `appDigest`, not a complete hidden graph. A Wo
 
 # Public contracts and lifecycle
 
-v0.0.3 использует только public Hypit 0.2.16 imports: model-kit, generation, endpoint-kit, runtime-kit, author-kit и artifact. Consumer scaffold создаёт exact Model и markup Surface по declared descriptor ports. Обычный installed Distribution resolver предоставляет SDK; test loader используется только в development unit tests и не включён в archive.
+Historically, v0.0.3 used only public Hypit 0.2.16 imports: model-kit, generation, endpoint-kit, runtime-kit, author-kit and artifact. The consumer scaffold created an exact Model and markup Surface from declared descriptor ports. The installed Distribution resolver provided the SDK; the test loader was used only in development unit tests and was not included in the archive.
 
 Public EndpointStartContext предоставляет `operation` и `checkpoint`; RuntimeAdapterFactoryContext предоставляет project `dataRoot`, `instance` и machine `hostStateRoot`. Private provider journal использует dataRoot/instance/operation. State/credential files не ищутся в cwd, .env или hostStateRoot автоматически.
 
