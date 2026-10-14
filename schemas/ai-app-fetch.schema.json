@@ -11,7 +11,9 @@
     "baseUrl": {
       "enum": [
         "https://www.runninghub.ai",
-        "https://www.runninghub.cn"
+        "https://www.runninghub.cn",
+        "https://www.runninghub.ai/",
+        "https://www.runninghub.cn/"
       ]
     },
     "apiKey": {

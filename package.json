@@ -20,7 +20,8 @@
     "test:ai-app": "node --import ./tests/sdk-register.js tests/ai-app.test.js"
   },
   "devDependencies": {
-    "@hypit/hypit": "0.2.16"
+    "@hypit/hypit": "0.2.16",
+    "ajv": "8.17.1"
   },
   "exports": {
     ".": "./index.js",

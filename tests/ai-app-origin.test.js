@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { createRequire } from 'node:module';
 import { fetchAiApp, validateAiAppDocument, validateAiAppFetchConfig } from '../ai-app/document.js';
 import { prepareAiAppReviewCandidate } from '../ai-app/review-candidate.js';
 import { credentialSha256 } from '../native/member-binding.js';
@@ -7,6 +9,33 @@ import { digest } from '../native/descriptor.js';
 import { serviceBase } from '../core/config.js';
 import { appFixture, KEY, mixedOutputs, publicSafe } from './ai-app-fixture.js';
 
+const Ajv2020 = createRequire(import.meta.url)('ajv/dist/2020.js').default;
+const ajv = new Ajv2020();
+const fetchSchema = ajv.compile(JSON.parse(await readFile(new URL('../schemas/ai-app-fetch.schema.json', import.meta.url))));
+const documentSchema = ajv.compile(JSON.parse(await readFile(new URL('../schemas/ai-app-document.schema.json', import.meta.url))));
+
+test('published App schemas accept canonical and trailing-slash official origins only', () => {
+  for (const origin of ['https://www.runninghub.ai', 'https://www.runninghub.cn']) {
+    const content = { baseUrl: origin, webappId: '1937084629516193794', accessEncrypted: false, nodeInfoList: [] };
+    const appDigest = digest(content);
+    const fetchConfig = { format: 'hypit-runninghub.ai-app-fetch@1', baseUrl: origin, webappId: content.webappId,
+      apiKey: { store: 'fixture', key: 'api-key' }, requestTimeoutMs: 1000, maxResponseBytes: 4096 };
+    const document = { format: 'hypit-runninghub.ai-app-document@1', ...content, webappName: 'Empty interface', appDigest };
+    for (const baseUrl of [origin, `${origin}/`]) {
+      const config = { ...fetchConfig, baseUrl }, source = { ...document, baseUrl };
+      assert.equal(fetchSchema(config), true, JSON.stringify(fetchSchema.errors));
+      assert.equal(documentSchema(source), true, JSON.stringify(documentSchema.errors));
+      assert.equal(validateAiAppFetchConfig(config).baseUrl, origin);
+      assert.equal(validateAiAppDocument(source).appDigest, appDigest);
+    }
+    for (const baseUrl of ['https://foreign.invalid', `${origin}//`, `${origin}/path`, `${origin}/?query=1`, `${origin}/#fragment`]) {
+      assert.equal(fetchSchema({ ...fetchConfig, baseUrl }), false, baseUrl);
+      assert.equal(documentSchema({ ...document, baseUrl }), false, baseUrl);
+      assert.throws(() => validateAiAppFetchConfig({ ...fetchConfig, baseUrl }), { code: 'UNTRUSTED_SERVICE_BASE' });
+      assert.throws(() => validateAiAppDocument({ ...document, baseUrl }), { code: 'UNTRUSTED_SERVICE_BASE' });
+    }
+  }
+});
 async function readDocument(f, baseUrl) {
   const config = { format: 'hypit-runninghub.ai-app-fetch@1', baseUrl, webappId: f.request.webappId,
     apiKey: f.config.apiKey, requestTimeoutMs: f.config.http.requestTimeoutMs, maxResponseBytes: f.config.http.maxResponseBytes };

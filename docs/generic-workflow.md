@@ -22,6 +22,8 @@ Read-only `fetch-app` accepts a decimal string ID (1–40 digits) or official HT
 
 Metadata uses only `GET /api/webapp/apiCallDemo` with exact `apiKey`/`webappId` query plus Bearer auth. Its credential-bearing URL is never public. `curl` is neither executed nor persisted. The document stores ID/origin/name, boolean `accessEncrypted`, and ordered literal `nodeId,nodeName,fieldName,fieldValue,fieldData,fieldType,description,descriptionEn` strings. `appDigest` pins canonical official origin, ID, accessEncrypted and these nodes—not app name, counters or fetch time. Equivalent accepted origin spellings, including a trailing slash, produce the same document/digest; validation does not mutate caller data. Previously fetched snapshots whose digest included a noncanonical origin spelling require refetch and renewed owner review, not a legacy digest alias. Endpoint configuration and existing Workflow fingerprints are not globally rewritten.
 
+The published `ai-app-fetch` and `ai-app-document` JSON schemas accept both official `.ai`/`.cn` origins with or without one trailing slash, matching runtime validation. Foreign origins, additional paths, query strings and fragments remain rejected.
+
 `fieldData` is not a universal enum/schema: required/range/cardinality semantics are not inferred. `request-from-app` preserves every default fieldValue in metadata order. Overrides replace known targets in place; bound targets omit their defaults until upload supplies filenames. Unknown targets, duplicates and override+binding conflicts fail before effects. An empty interface is valid. Canonical App request format is `hypit-runninghub.ai-app-request@1`, with string webappId, nodeInfoList/files/bindings, optional review/instanceType; no graph, workflow ID or password literal.
 
 ```sh
@@ -33,6 +35,10 @@ rh-workflow review-candidate --input ./app-request.json --config ./examples/gene
 ```
 
 These commands prepare new files, not paid tasks. Fetch reads only metadata through the explicit CredentialRef resolver; CLI supports the configured env store, while SDK consumers supply their own resolver. Supply values `{nodeInfoList,files,bindings,review,instanceType}` only; omit unused options. Asset files contain `{key,src,mediaType}`, selected outputs `{name,index}`, review files `{key,path,mediaType}`. For a configured password add `--access-password-sha256 <actual-password-sha256>`; actual secrets are never CLI flags. The candidate remains `UNREVIEWED_OWNER_MUST_CHECK`, with null dates, and must not be installed as approval.
+
+For App review candidates, `--files` must match request `files` exactly in count and order, including key/MIME/size; missing or extra entries fail `REVIEW_FILE_MISMATCH` before local file reads when counts differ. An App request with no files requires an empty review-file list. Workflow authoring retains its existing ability to prepare file metadata for future bindings.
+
+If the author draft contains future `<File>` edges but `files: []`, prepare a separate App review request with those ordered `{key,blob}` entries before invoking `review-candidate`. Each blob must include its actual `mediaType` and byte `size` plus a valid ResourceStore ID; the ID is excluded from the review digest, so execution may use a different ID for identical bytes.
 
 Profile binds both `@local/provider-runninghub@1#run-workflow` and `@local/provider-runninghub@1#run-ai-app` to the same account Endpoint; `examples/ai-app-profile.json` is disabled. After separate owner review and explicit spending authorization, ordinary `hypit check`, `plan`, `doctor`, `pricing`, `build --follow`, `inspect` and `get` use `<AiApp>` like `<Workflow>`. `get` exports the composite value.json/resources; `<Output name="chosen" index="0"/>` selects a file. Pricing provides the Membership source page, not a fabricated numeric quote.
 
