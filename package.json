@@ -1,6 +1,6 @@
 {
   "name": "@local/provider-runninghub",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "type": "module",
   "description": "Hypit generic native RunningHub workflow and AI App account Provider with per-operation reviewed Membership Coins execution",

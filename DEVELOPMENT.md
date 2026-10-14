@@ -1,6 +1,6 @@
 # Инструкции разработчику пакета
 
-Рабочая граница: этот пакет и /tmp; no real credentials/env/live/paid calls. v0.0.4 account Endpoint обслуживает Workflow и AI App native routes с отдельными nominal request/review и общим durable lifecycle/result. Старые stage notes ниже — исторические, не новое spending permission.
+Рабочая граница: текущий source/package release — v0.1.2; no real credentials/env/live/paid calls. v0.0.4 account Endpoint и старые stage notes ниже — исторический контекст, не новое spending permission.
 
 ## Обязательная рекомендация
 
@@ -32,7 +32,7 @@ Read local pinned llms.txt и rh-api-contract.md полностью; затем 
 - Не отдавать ключ внешнему download host, не сохранять signed URLs в public receipt/progress. Private durable evidence permissions: directories 0700, files 0600; public sanitized response отдельно. `raw_response` сохранение не означает permission печатать его.
 - Meaningful offline mocks and isolated consumer checks are allowed. Release tarballs/checksums are built and attached by GitHub Actions for main commits; an immutable GitHub Release is created only for a new package version. GitHub releases are authorized; npm publication, live smoke, uploads and paid tasks are not.
 - AI Apps: metadata — interface, not full graph. appDigest does not detect hidden implementation changes; manual owner review of key/App/params/no-external-Money is required. Workflow review does not authorize an App. Do not include Model/LLM Enterprise-Shared routes in RHCoins execution.
-- Checks: `npm ci`, then the test scripts in `package.json`; pack to a fresh `/tmp` directory using `tests/pack-release.mjs`; pass that tarball explicitly to `tests/installed-generic-proof.mjs` and `tests/installed-hypit-proof.mjs`. CI uses Node 22, Hypit 0.2.16 (`HYPIT_SDK_ROOT` points to the installed SDK), and ffmpeg/ffprobe. These installed proofs use offline mocks only. Never overwrite sealed v0.0.4/v0.0.3 artifacts.
+- Checks: `npm ci`, then the test scripts in `package.json`; pack to a fresh `/tmp` directory using `tests/pack-release.mjs`; pass that tarball explicitly to `tests/installed-generic-proof.mjs` and `tests/installed-hypit-proof.mjs`. CI uses Node 22, Hypit 0.2.16 (`HYPIT_SDK_ROOT` points to the installed SDK), and ffmpeg/ffprobe. These installed proofs use offline mocks only. Never overwrite published v0.1.1/v0.1.0 release assets or sealed v0.0.4/v0.0.3 artifacts.
 - Schema regressions compile the published draft-2020-12 App schemas with the pinned `ajv` devDependency; both official origins and trailing-slash spellings must agree with runtime admission, without widening the origin allowlist.
 - Не менять root packages/node_modules/workflows/.hypit/renders/profiles/assets/scripts/.env или официальный Hypit skill. Проверять diff только этого каталога; не staging/commit чужие изменения.
 

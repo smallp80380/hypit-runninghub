@@ -185,6 +185,7 @@ jobs:
 
           gh release create "$tag" "$archive" "$checksum" \
             --repo "$GITHUB_REPOSITORY" \
-            --title "$tag" \
+            --title "Hypit RunningHub Provider $tag" \
             --notes "Automated release built and tested from commit $source_commit." \
+            --latest \
             --verify-tag

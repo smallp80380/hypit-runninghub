@@ -1,12 +1,12 @@
-# Own workflow JSON v0.0.4
+# Own workflow JSON — Provider v0.1.2
 
 Primary import-native/edit-native/export-native/request-from-file/document preserve API literals and originals; UI source is retained non-executable until API export or verified contracts. See [edit guide](WORKFLOW_CHANGES_RU.md), [reuse](REUSE_RU.md) and [generic operation](generic-workflow.md). Legacy editor below remains compatible.
 
-## Legacy management SDK / v0.0.3
+## Historical legacy management SDK / v0.0.3
 
-# Proposed workflow management — v0.0.3 phase1
+# Historical workflow management — v0.0.3 phase1
 
-**Phases1–3 approved; v0.0.3 portable release awaits final parent review.** Descriptor@2 execution/audio/inline/free fetch are implemented and checked with offline mocks. Consumer scaffold and ordinary installed Hypit mock Build verify image/audio inputs, ResourceStore and MP4 export. Sealed v0.0.2 remains unchanged. Existing descriptor@1 and binding@1 saved-ID behavior remain unchanged.
+**Historical v0.0.3 stage note:** Phases 1–3 were approved; descriptor@2 execution/audio/inline/free fetch were implemented and checked with offline mocks. Consumer scaffold and ordinary installed Hypit mock Build verify image/audio inputs, ResourceStore and MP4 export. Sealed v0.0.2 remains unchanged. Existing descriptor@1 and binding@1 saved-ID behavior remain unchanged.
 
 ## Local revisions and public interfaces
 

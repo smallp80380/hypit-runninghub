@@ -1,6 +1,8 @@
-# Hypit RunningHub Provider v0.1.0
+# Hypit RunningHub Provider v0.1.2
 
-GitHub release: [v0.1.0](https://github.com/smallp80380/hypit-runninghub/releases/tag/v0.1.0). This feature release adds the native Workflow and AI App account Endpoint extension, follow-up AI App review/schema fixes, and reproducible GitHub Actions release builds. Checks and installed proofs use offline mocks; no claim of live RunningHub availability, price, or generation quality is made.
+GitHub release: [v0.1.2](https://github.com/smallp80380/hypit-runninghub/releases/tag/v0.1.2). This patch aligns the package version, installation links, and bundled README; it retains the Workflow and AI App functionality described below. Checks and installed proofs use offline mocks; no claim of live RunningHub availability, price, or generation quality is made.
+
+Earlier releases v0.1.1 and v0.1.0, plus the sealed v0.0.4 snapshot, remain in history with their original tags and archives. The v0.1.1 archive keeps its older bundled README; use this repository README for current installation instructions.
 
 Один account Endpoint выполняет API-доступные RHCoins workflows и AI Apps RunningHub по произвольному ID. Read-only fetch принимает также `/post/<id>` и `/ai-detail/<id>` на официальных HTTPS origins. Workflows принимают saved ID или полный API JSON; Apps — отдельный `webappId` и параметры загруженного интерфейса. Новый сервис не требует регистрации Model, descriptor или каталога.
 
@@ -20,7 +22,7 @@ Pinned commit: `8f9c858e7e631a1c1c49df0c4defd77fdd690dd4`. Source URLs/digests: 
 
 ## Покрытие
 
-| Область | v0.1.0 |
+| Область | v0.1.2 |
 | --- | --- |
 | Native execution | Workflow ID/full API JSON и AI App ID/interface values; две capabilities одного account Endpoint |
 | Входные файлы | PNG/JPEG/WEBP, MP3/WAV/FLAC, MP4/AVI/MOV/MKV, image ZIP; до 30 MiB каждый; без provider count cap |
@@ -43,13 +45,13 @@ Journal identity — account instance + Runtime operation, общая для о�
 
 ## Установка
 
-Установите архив из [GitHub Release v0.1.0](https://github.com/smallp80380/hypit-runninghub/releases/tag/v0.1.0). SHA-256 checksum проверяет целостность скачивания, но не является цифровой подписью:
+Установите архив из [GitHub Release v0.1.2](https://github.com/smallp80380/hypit-runninghub/releases/tag/v0.1.2). SHA-256 checksum проверяет целостность скачивания, но не является цифровой подписью:
 
 ```sh
-curl -fsSLO https://github.com/smallp80380/hypit-runninghub/releases/download/v0.1.0/local-provider-runninghub-0.1.0.tgz
-curl -fsSLO https://github.com/smallp80380/hypit-runninghub/releases/download/v0.1.0/local-provider-runninghub-0.1.0.tgz.sha256
-sha256sum -c local-provider-runninghub-0.1.0.tgz.sha256
-npm install --ignore-scripts --legacy-peer-deps --save-exact ./local-provider-runninghub-0.1.0.tgz
+curl -fsSLO https://github.com/smallp80380/hypit-runninghub/releases/download/v0.1.2/local-provider-runninghub-0.1.2.tgz
+curl -fsSLO https://github.com/smallp80380/hypit-runninghub/releases/download/v0.1.2/local-provider-runninghub-0.1.2.tgz.sha256
+sha256sum -c local-provider-runninghub-0.1.2.tgz.sha256
+npm install --ignore-scripts --legacy-peer-deps --save-exact ./local-provider-runninghub-0.1.2.tgz
 npx --no-install rh-workflow --help
 hypit check author.svml --workspace . --json
 hypit plan run.svrun --runtime ./profile.json --workspace . --json
