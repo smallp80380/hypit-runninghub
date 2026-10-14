@@ -1,0 +1,189 @@
+name: Build and release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Test and package
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    env:
+      HYPIT_SDK_ROOT: ${{ github.workspace }}/node_modules/@hypit/hypit
+    steps:
+      - name: Check out tested commit
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes ffmpeg
+
+      - name: Install pinned development dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Make local Hypit CLI available to installed proofs
+        run: echo "$GITHUB_WORKSPACE/node_modules/.bin" >> "$GITHUB_PATH"
+
+      - name: Run all ten test suites
+        run: |
+          npm run test:stage2
+          npm run test:stage3
+          npm run test:stage3.1
+          npm run test:stage4
+          npm run test:workflow
+          npm run test:workflow:installed
+          npm run test:workflow:v2
+          npm run test:generic
+          npm run test:generic:author
+          npm run test:ai-app
+
+      - name: Build a fresh source-allowlisted archive
+        id: package
+        shell: bash
+        run: |
+          set -euo pipefail
+          output="$RUNNER_TEMP/hypit-release"
+          mkdir -p "$output"
+          node tests/pack-release.mjs "$output"
+          version="$(node -p "JSON.parse(require('node:fs').readFileSync('package.json', 'utf8')).version")"
+          archive_name="local-provider-runninghub-${version}.tgz"
+          archive="$output/$archive_name"
+          test -f "$archive"
+          (cd "$output" && sha256sum "$archive_name" > "$archive_name.sha256")
+          jq -n \
+            --arg version "$version" \
+            --arg commit "$GITHUB_SHA" \
+            --arg archive "$archive_name" \
+            --arg sha256 "$(cut -d ' ' -f 1 "$archive.sha256")" \
+            '{version: $version, commit: $commit, archive: $archive, sha256: $sha256}' \
+            > "$output/release-metadata.json"
+          echo "archive=$archive" >> "$GITHUB_OUTPUT"
+          echo "checksum=$archive.sha256" >> "$GITHUB_OUTPUT"
+          echo "metadata=$output/release-metadata.json" >> "$GITHUB_OUTPUT"
+
+      - name: Prove ordinary installed consumer workflow
+        run: node tests/installed-generic-proof.mjs "${{ steps.package.outputs.archive }}"
+
+      - name: Prove ordinary installed Hypit runtime
+        run: node tests/installed-hypit-proof.mjs "${{ steps.package.outputs.archive }}"
+
+      - name: Upload tested archive and checksum
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: release-build-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ steps.package.outputs.archive }}
+            ${{ steps.package.outputs.checksum }}
+            ${{ steps.package.outputs.metadata }}
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 90
+
+  release:
+    name: Publish immutable GitHub Release
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    concurrency:
+      group: github-release-${{ github.repository }}
+      cancel-in-progress: false
+    steps:
+      - name: Download tested build artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: release-build-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/release
+
+      - name: Create the release only if its tag is unused
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          directory="$RUNNER_TEMP/release"
+          metadata="$directory/release-metadata.json"
+          version="$(jq -er '.version' "$metadata")"
+          source_commit="$(jq -er '.commit' "$metadata")"
+          archive_name="$(jq -er '.archive' "$metadata")"
+          expected_sha256="$(jq -er '.sha256' "$metadata")"
+          [[ "$source_commit" == "$GITHUB_SHA" ]]
+          [[ "$archive_name" == "local-provider-runninghub-${version}.tgz" ]]
+          [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]
+          archive="$directory/$archive_name"
+          checksum="$archive.sha256"
+          test -f "$archive"
+          test -f "$checksum"
+          actual_sha256="$(sha256sum "$archive" | cut -d ' ' -f 1)"
+          [[ "$actual_sha256" == "$expected_sha256" ]]
+          (cd "$directory" && sha256sum --check "$(basename "$checksum")")
+          tag="v${version}"
+          api="$GITHUB_API_URL/repos/$GITHUB_REPOSITORY"
+          headers=(
+            --header "Authorization: Bearer $GH_TOKEN"
+            --header 'Accept: application/vnd.github+json'
+            --header 'X-GitHub-Api-Version: 2022-11-28'
+          )
+          response="$RUNNER_TEMP/release-api-response.json"
+          status="$(curl --silent --show-error --output "$response" --write-out '%{http_code}' \
+            "${headers[@]}" "$api/releases/tags/$tag")"
+          if [[ "$status" == 200 ]]; then
+            if [[ "$(jq -er '.draft' "$response")" == true ]]; then
+              echo "Release $tag exists as a draft; recover or remove that draft before retrying publication." >&2
+              exit 1
+            fi
+            echo "Release $tag already exists; keeping its tag and assets unchanged."
+            exit 0
+          fi
+          if [[ "$status" != 404 ]]; then
+            echo "Release lookup failed with HTTP $status." >&2
+            cat "$response" >&2
+            exit 1
+          fi
+
+          ref_response="$RUNNER_TEMP/release-tag-ref.json"
+          ref_status="$(curl --silent --show-error --output "$ref_response" --write-out '%{http_code}' \
+            "${headers[@]}" "$api/git/ref/tags/$tag")"
+          if [[ "$ref_status" == 200 ]]; then
+            target_sha="$(jq -er '.object.sha' "$ref_response")"
+            target_type="$(jq -er '.object.type' "$ref_response")"
+            while [[ "$target_type" == tag ]]; do
+              tag_response="$RUNNER_TEMP/release-tag-object.json"
+              tag_status="$(curl --silent --show-error --output "$tag_response" --write-out '%{http_code}' \
+                "${headers[@]}" "$api/git/tags/$target_sha")"
+              [[ "$tag_status" == 200 ]]
+              target_sha="$(jq -er '.object.sha' "$tag_response")"
+              target_type="$(jq -er '.object.type' "$tag_response")"
+            done
+            [[ "$target_type" == commit ]]
+            if [[ "$target_sha" != "$source_commit" ]]; then
+              echo "Tag $tag already points to $target_sha, not tested commit $source_commit; refusing to attach assets." >&2
+              exit 1
+            fi
+          elif [[ "$ref_status" == 404 ]]; then
+            gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" \
+              --field "ref=refs/tags/$tag" --field "sha=$source_commit" >/dev/null
+          else
+            echo "Tag lookup failed with HTTP $ref_status." >&2
+            cat "$ref_response" >&2
+            exit 1
+          fi
+
+          gh release create "$tag" "$archive" "$checksum" \
+            --title "$tag" \
+            --notes "Automated release built and tested from commit $source_commit." \
+            --verify-tag
