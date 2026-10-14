@@ -97,7 +97,9 @@ for(const c of cases.filter(item=>item.kind==='ai-app')){
  await save(`${c.id}-assets.json`,files);await save(`${c.id}-outputs.json`,outputs);
  await save(`${c.id}-review-files.json`,files.map(({src,...file})=>({...file,path:src})));
  await run(process.execPath,[cli,'author-from-request','--input',`${c.id}-request.json`,'--id',c.id,'--files',`${c.id}-assets.json`,'--outputs',`${c.id}-outputs.json`,'--output',`${c.id}.svml`],`${c.id}-prepare-author`);
- await run(process.execPath,[cli,'review-candidate','--input',`${c.id}-request.json`,'--config','account-config.json','--app',`${c.id}-document.json`,'--credential-sha256',credentialSha256,'--access-password-sha256',accessPasswordSha256,'--files',`${c.id}-review-files.json`,'--output',`${c.id}-candidate.json`],`${c.id}-prepare-review`);
+ // Author drafts carry future File edges; review input must carry the actual file intent.
+ await save(`${c.id}-review-request.json`,{...c.request,files:files.map((file,i)=>({key:file.key,blob:{kind:'blob',resource:`res_review_${i}`,mediaType:file.mediaType,size:types[i].bytes.length}}))});
+ await run(process.execPath,[cli,'review-candidate','--input',`${c.id}-review-request.json`,'--config','account-config.json','--app',`${c.id}-document.json`,'--credential-sha256',credentialSha256,'--access-password-sha256',accessPasswordSha256,'--files',`${c.id}-review-files.json`,'--output',`${c.id}-candidate.json`],`${c.id}-prepare-review`);
  const candidate=JSON.parse(await readFile(join(directory,`${c.id}-candidate.json`)));
  assert.equal(candidate.reviewRequired,true);assert.equal(candidate.semanticValidation,'UNVERIFIED');assert.equal(candidate.record.humanReview.kind,'UNREVIEWED_OWNER_MUST_CHECK');assert.equal(candidate.record.expiresAt,null);assert.equal(candidate.record.appDigest,app.appDigest);
  // Explicit synthetic authority is confined to this isolated test project.

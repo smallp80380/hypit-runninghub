@@ -6,7 +6,7 @@
   "additionalProperties": false,
   "properties": {
     "format": { "const": "hypit-runninghub.ai-app-document@1" },
-    "baseUrl": { "enum": ["https://www.runninghub.ai", "https://www.runninghub.cn"] },
+    "baseUrl": { "enum": ["https://www.runninghub.ai", "https://www.runninghub.cn", "https://www.runninghub.ai/", "https://www.runninghub.cn/"] },
     "webappId": { "type": "string", "pattern": "^[0-9]{1,40}$" },
     "webappName": { "type": "string" },
     "accessEncrypted": { "type": "boolean" },

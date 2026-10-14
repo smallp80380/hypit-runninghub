@@ -33,6 +33,7 @@ Read local pinned llms.txt и rh-api-contract.md полностью; затем 
 - На будущих stages разрешены meaningful offline mocks и isolated consumer checks. Live smoke, uploads, paid tasks и publication требуют отдельного scope.
 - AI Apps: metadata — интерфейс, не полный граф. appDigest не обнаруживает hidden implementation change; нужен manual owner review ключа/App/params/no-external-Money. Workflow review не авторизует App. Model/LLM Enterprise-Shared routes не включать в RHCoins execution.
 - Проверка расширения: `node --import ./tests/sdk-register.js tests/ai-app.test.js` плюс прежние suites. Паковать в новый `/tmp` directory через `tests/pack-release.mjs`; запускать `tests/installed-generic-proof.mjs` и `tests/installed-hypit-proof.mjs` на новом tarball. Не перезаписывать sealed artifacts; не bump/publish.
+- Schema regressions compile the published draft-2020-12 App schemas with the pinned `ajv` devDependency; both official origins and trailing-slash spellings must agree with runtime admission, without widening the origin allowlist.
 - Не менять root packages/node_modules/workflows/.hypit/renders/profiles/assets/scripts/.env или официальный Hypit skill. Проверять diff только этого каталога; не staging/commit чужие изменения.
 
 ## Обновление источников

@@ -156,6 +156,40 @@ test('App candidate remains non-executable and pins the fetched interface', asyn
   await assert.rejects(prepareAiAppReviewCandidate({ config, request: { ...request, webappId: '2' }, app, credentialSha256: 'a'.repeat(64) }));
 });
 
+for (const count of [0, 1]) {
+  test(`App review candidate rejects extra files for a ${count}-file request`, async t => {
+    const { writeFile } = await import('node:fs/promises');
+    const { join } = await import('node:path');
+    const { prepareAiAppReviewCandidate } = await import('../ai-app/review-candidate.js');
+    const f = await appFixture(t, { files: count });
+    const path = join(f.dataRoot, 'input.png');
+    await writeFile(path, f.state.inputs[0] ?? PNG);
+    const files = f.request.files.map(file => ({ key: file.key, path, mediaType: file.blob.mediaType }));
+    files.push({ key: 'extra', path, mediaType: 'image/png' });
+    await assert.rejects(prepareAiAppReviewCandidate({ config: f.config, request: f.request, app: f.app,
+      credentialSha256: credentialSha256(KEY), files }), { code: 'REVIEW_FILE_MISMATCH' });
+    noEffects(f);
+  });
+}
+
+test('App review candidate requires all files and yields a valid review after owner approval', async t => {
+  const { writeFile } = await import('node:fs/promises');
+  const { join } = await import('node:path');
+  const { prepareAiAppReviewCandidate } = await import('../ai-app/review-candidate.js');
+  const { validateAiAppReview } = await import('../ai-app/review.js');
+  const f = await appFixture(t, { files: 1 });
+  const path = join(f.dataRoot, 'input.png');
+  await writeFile(path, f.state.inputs[0]);
+  const options = { config: f.config, request: f.request, app: f.app, credentialSha256: credentialSha256(KEY) };
+  await assert.rejects(prepareAiAppReviewCandidate({ ...options, files: [] }), { code: 'REVIEW_FILE_MISMATCH' });
+  const candidate = await prepareAiAppReviewCandidate({ ...options,
+    files: [{ key: 'file-0', path, mediaType: 'image/png' }] });
+  const reviewed = { ...candidate.record, humanReview: f.review.humanReview, expiresAt: f.review.expiresAt };
+  assert.deepEqual(validateAiAppReview(reviewed, { config: f.config, request: f.request,
+    appDigest: f.app.appDigest, fileDigests: f.review.fileDigests, secret: KEY, now: f.state.now }), reviewed);
+  noEffects(f);
+});
+
 test('reviewed App runs through the installed account endpoint and collects exact ordered heterogeneous files', async t => {
   const f = await appFixture(t, { files: 2, password: true, instanceType: 'plus' });
   assert.equal(f.settings.supports(f.ctx.need).status, 'supported');

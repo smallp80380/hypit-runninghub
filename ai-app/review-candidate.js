@@ -14,6 +14,7 @@ export async function prepareAiAppReviewCandidate({ config, request, app, creden
   validateAiAppTargets(source, draft);
   if (source.accessEncrypted && checked.accessPassword === undefined) fail('ACCESS_PASSWORD_REQUIRED');
   const envelope = reviewCandidateEnvelope(checked, credentialSha256, accessPasswordSha256);
+  if (!Array.isArray(files) || files.length !== draft.files.length) fail('REVIEW_FILE_MISMATCH');
   const inputs = await reviewCandidateInputs(draft, files);
   return { reviewRequired: true, semanticValidation: 'UNVERIFIED', record: {
     format: 'REVIEWED_AI_APP_OPERATION@1', ...envelope, ...inputs, appDigest: source.appDigest,
