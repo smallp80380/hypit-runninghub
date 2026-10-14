@@ -12,6 +12,8 @@ Provider поставляет один generic nominal Module через public 
 
 Практические инструкции: [workflow перенос и запуск](docs/REUSE_RU.md), [редактирование](docs/WORKFLOW_CHANGES_RU.md), [Workflow/App контракт и CLI путь](docs/generic-workflow.md). Старые config/descriptor/binding @1/@2 и consumer scaffold сохранены.
 
+Отдельный [Hypit RunningHub skill](https://github.com/smallp80380/hypit-runninghub-skill) содержит инструкции для Codex и OMP; он устанавливается независимо и не входит в Provider archive.
+
 ## Официальные правила
 
 Источник: [developer-kit README](https://github.com/HM-RunningHub/ComfyUI_RH_OpenAPI/blob/8f9c858e7e631a1c1c49df0c4defd77fdd690dd4/developer-kit/README.md); точная пользовательская рекомендация:
