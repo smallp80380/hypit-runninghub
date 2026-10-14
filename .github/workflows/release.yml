@@ -184,6 +184,7 @@ jobs:
           fi
 
           gh release create "$tag" "$archive" "$checksum" \
+            --repo "$GITHUB_REPOSITORY" \
             --title "$tag" \
             --notes "Automated release built and tested from commit $source_commit." \
             --verify-tag
